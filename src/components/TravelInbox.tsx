@@ -7,38 +7,45 @@ import { Button } from "@/components/ui/button";
 const savedContent = [
   {
     id: 1,
-    thumbnail: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=400&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=400&q=80", // Krabi limestone cliffs and beach
     source: "IG",
-    location: "Phuket beach villa",
+    location: "Krabi island hopping",
     type: "reel"
   },
   {
     id: 2,
-    thumbnail: "https://images.unsplash.com/photo-1561713528-cdb93dee84ea?auto=format&fit=crop&w=400&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1563492065_75925f1a3c?auto=format&fit=crop&w=400&q=80", // Bangkok street cafe with Thai signage
     source: "WA",
-    location: "Bangkok café",
+    location: "Bangkok hidden café",
     type: "forward"
   },
   {
     id: 3,
-    thumbnail: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=400&q=80", // Thai temple with golden architecture
     source: "TT",
-    location: "Koh Phi Phi boat tour",
+    location: "Chiang Mai temple tour",
     type: "video"
   },
   {
     id: 4,
-    thumbnail: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=400&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=400&q=80", // Bangkok skyline at dusk from rooftop
     source: "IG",
-    location: "Chiang Mai temple",
+    location: "Bangkok rooftop views",
     type: "post"
   },
   {
     id: 5,
-    thumbnail: "https://images.unsplash.com/photo-1485833077593-4278bba3f11f?auto=format&fit=crop&w=400&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=400&q=80", // Thai street food market scene
     source: "WA",
-    location: "Bangkok rooftop bar",
+    location: "Chatuchak weekend market",
     type: "forward"
+  },
+  {
+    id: 6,
+    thumbnail: "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?auto=format&fit=crop&w=400&q=80", // Phuket beach sunset
+    source: "TT", 
+    location: "Phuket sunset beach",
+    type: "video"
   }
 ];
 
@@ -128,8 +135,8 @@ export const TravelInbox = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=60&q=80" 
-                    alt="Bangkok street food" 
+                    src="https://images.unsplash.com/photo-1563492065_75925f1a3c?auto=format&fit=crop&w=60&q=80" 
+                    alt="Bangkok street food vendor" 
                     className="w-12 h-12 rounded-lg object-cover"
                   />
                   <div className="flex-1">
@@ -141,8 +148,8 @@ export const TravelInbox = () => {
                 
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1485833077593-4278bba3f11f?auto=format&fit=crop&w=60&q=80" 
-                    alt="Bangkok rooftop" 
+                    src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=60&q=80" 
+                    alt="Bangkok skyline rooftop view" 
                     className="w-12 h-12 rounded-lg object-cover"
                   />
                   <div className="flex-1">
