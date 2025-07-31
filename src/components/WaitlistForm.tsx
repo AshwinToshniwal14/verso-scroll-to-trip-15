@@ -8,8 +8,7 @@ export const WaitlistForm = ({ className = "", size = "default", compact = false
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // For demo purposes, navigate to login instead of showing waitlist
-    navigate('/login');
+    setIsModalOpen(true);
   };
 
   return (
@@ -19,7 +18,7 @@ export const WaitlistForm = ({ className = "", size = "default", compact = false
           onClick={handleClick}
           className={`btn-coral whitespace-nowrap ${compact ? "px-4 py-2 w-full" : size === "lg" ? "h-12 px-8" : "px-6 py-3 w-full"}`}
         >
-          {compact ? "Join" : "→ Build My Travel Inbox"}
+          {compact ? "Join" : "→ Join Waitlist"}
         </Button>
       </div>
       
