@@ -6,34 +6,67 @@ import { TripsBecomeFlywheel } from "@/components/TripsBecomeFlywheel";
 import { EmbeddedWaitlist } from "@/components/EmbeddedWaitlist";
 import { StickyCTA } from "@/components/StickyCTA";
 import { Footer } from "@/components/Footer";
+import { useNavigate } from "react-router-dom";
+import { User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Index = () => {
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+
   return (
-    <div className="min-h-screen">
-      {/* Hero - Save anything. We build everything. */}
-      <Hero />
-      
-      {/* Inbox → Itinerary Animation */}
-      <InboxToItinerary />
-      
-      {/* Chaos to Calm - Before/After Mobile Flow */}
-      <ChaosToCalm />
-      
-      {/* Social Proof + Final CTA */}
-      <SocialProofFinal />
-      
-      {/* Trips Become Guides Flywheel */}
-      <TripsBecomeFlywheel />
-      
-      {/* Embedded Waitlist Form */}
-      <EmbeddedWaitlist />
-      
-      {/* Sticky CTA */}
-      <StickyCTA />
-      
-      {/* Minimal Footer */}
-      <Footer />
-    </div>
+    <TooltipProvider>
+      <div className="min-h-screen">
+        {/* Hero - Save anything. We build everything. */}
+        <Hero />
+        
+        {/* Inbox → Itinerary Animation */}
+        <InboxToItinerary />
+        
+        {/* Chaos to Calm - Before/After Mobile Flow */}
+        <ChaosToCalm />
+        
+        {/* Social Proof + Final CTA */}
+        <SocialProofFinal />
+        
+        {/* Trips Become Guides Flywheel */}
+        <TripsBecomeFlywheel />
+        
+        {/* Embedded Waitlist Form */}
+        <EmbeddedWaitlist />
+        
+        {/* Sticky CTA */}
+        <StickyCTA />
+        
+        {/* Minimal Footer */}
+        <Footer />
+
+        {/* Floating Login Icon */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={handleLoginClick}
+              size="icon"
+              className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg hover:bg-white/20 hover:shadow-xl transition-all duration-300 z-50"
+            >
+              <User className="h-6 w-6 text-primary" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="left" className="hidden md:block">
+            <p>Log in to see your travel inbox</p>
+          </TooltipContent>
+        </Tooltip>
+      </div>
+    </TooltipProvider>
   );
 };
 
