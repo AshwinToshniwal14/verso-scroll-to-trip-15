@@ -8,7 +8,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { format } from "date-fns";
-import { CalendarIcon, Users, Plus, X } from "lucide-react";
+import { CalendarIcon, Users, Plus, X, MessageCircle, Plane, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const ShowMyTrip = () => {
@@ -21,6 +21,7 @@ const ShowMyTrip = () => {
   const [newTraveler, setNewTraveler] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
 
   const contentThumbnails = [
     { type: "café", count: 3, image: "https://images.unsplash.com/photo-1561713528-cdb93dee84ea?auto=format&fit=crop&w=150&q=80" },
@@ -40,14 +41,26 @@ const ShowMyTrip = () => {
   };
 
   const handleLockTrip = () => {
-    setShowConfetti(true);
+    setShowLoader(true);
+    setTimeout(() => {
+      setShowLoader(false);
+      setShowConfetti(true);
+    }, 1500);
     setTimeout(() => {
       navigate('/dashboard');
-    }, 2000);
+    }, 3500);
   };
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Floating Chat Icon */}
+      <button className="fixed bottom-6 right-6 bg-coral-500 hover:bg-coral-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-50 group">
+        <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+        <div className="absolute -top-2 -left-2 bg-emerald-500 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+          Ask Verso anything about your trip
+        </div>
+      </button>
+
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -276,11 +289,41 @@ const ShowMyTrip = () => {
         </div>
       </div>
 
+      {/* Loader Animation */}
+      {showLoader && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="bg-white rounded-3xl p-8 max-w-sm mx-4 text-center">
+            <div className="mb-6">
+              <div className="w-16 h-16 mx-auto bg-coral-100 rounded-full flex items-center justify-center mb-4">
+                <Plane className="w-8 h-8 text-coral-500 animate-bounce" />
+              </div>
+              <div className="flex justify-center space-x-1 mb-4">
+                <div className="w-2 h-2 bg-coral-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                <div className="w-2 h-2 bg-coral-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                <div className="w-2 h-2 bg-coral-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+              </div>
+            </div>
+            <h3 className="text-xl font-bold text-foreground mb-2">
+              Stitching your stories into a journey…
+            </h3>
+            <p className="text-muted-foreground">
+              Creating your personalized Thailand adventure
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Confetti effect */}
       {showConfetti && (
         <div className="fixed inset-0 pointer-events-none z-50">
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="text-6xl animate-bounce">🎉</div>
+          </div>
+          <div className="absolute top-1/3 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="text-4xl animate-bounce" style={{ animationDelay: '200ms' }}>✨</div>
+          </div>
+          <div className="absolute top-2/3 right-1/4 transform translate-x-1/2 translate-y-1/2">
+            <div className="text-4xl animate-bounce" style={{ animationDelay: '400ms' }}>🎊</div>
           </div>
         </div>
       )}
