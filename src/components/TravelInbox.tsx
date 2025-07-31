@@ -60,10 +60,10 @@ export const TravelInbox = () => {
       {/* Header */}
       <div className="pt-8 pb-6 px-4 text-center">
         <h1 className="text-2xl md:text-3xl font-bold text-[#2D3439] mb-2">
-          Welcome back, traveler.
+          Welcome back, Ashwin.
         </h1>
         <p className="text-lg text-[#2D3439]/70">
-          We've organized your <span className="font-semibold">17 saved dreams</span> from Thailand.
+          Your <span className="font-semibold">17 saved dreams</span> from Thailand are now organized.
         </p>
       </div>
 
@@ -115,11 +115,45 @@ export const TravelInbox = () => {
             )}
           </div>
 
-          {/* Right: Itinerary Preview Placeholder */}
-          <div className="flex-1 flex items-center justify-center text-[#2D3439]/30">
-            <div className="text-center">
-              <div className="w-32 h-32 bg-gray-100 rounded-lg mb-4 mx-auto"></div>
-              <p className="text-sm">Itinerary preview will appear here</p>
+          {/* Right: Thailand Itinerary Preview */}
+          <div className="flex-1">
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 max-w-sm mx-auto">
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-bold text-[#2D3439] mb-2">Bangkok Street Food Hop</h3>
+                <p className="text-sm text-[#2D3439]/60">🍜 6 must-eats • ☕ 3 cafes • 🕒 37s to build</p>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                  <img 
+                    src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=60&q=80" 
+                    alt="Bangkok street food" 
+                    className="w-12 h-12 rounded-lg object-cover"
+                  />
+                  <div className="flex-1">
+                    <div className="font-medium text-sm text-[#2D3439]">Chatuchak Market</div>
+                    <div className="text-xs text-[#2D3439]/60">Street Food Tour</div>
+                  </div>
+                  <div className="text-xs text-coral font-medium">Day 1</div>
+                </div>
+                
+                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                  <img 
+                    src="https://images.unsplash.com/photo-1485833077593-4278bba3f11f?auto=format&fit=crop&w=60&q=80" 
+                    alt="Bangkok rooftop" 
+                    className="w-12 h-12 rounded-lg object-cover"
+                  />
+                  <div className="flex-1">
+                    <div className="font-medium text-sm text-[#2D3439]">Sky Bar Bangkok</div>
+                    <div className="text-xs text-[#2D3439]/60">Rooftop Experience</div>
+                  </div>
+                  <div className="text-xs text-coral font-medium">Day 1</div>
+                </div>
+              </div>
+              
+              <Button className="w-full bg-coral hover:bg-coral/90 text-white font-medium py-3 text-sm">
+                → Preview Itinerary
+              </Button>
             </div>
           </div>
         </div>
@@ -130,7 +164,7 @@ export const TravelInbox = () => {
         <Button 
           className="w-full bg-[#FF7A64] hover:bg-[#FF7A64]/90 text-white font-semibold py-3 text-base animate-pulse"
         >
-          → Build My Thailand Trip
+          → Show My Trip
         </Button>
       </div>
 
@@ -139,7 +173,7 @@ export const TravelInbox = () => {
         <Button 
           className="bg-[#FF7A64] hover:bg-[#FF7A64]/90 text-white font-semibold px-8 py-3 text-base animate-pulse shadow-lg"
         >
-          → Build My Thailand Trip
+          → Show My Trip
         </Button>
       </div>
     </div>

@@ -46,7 +46,7 @@ export const EmbeddedWaitlist = () => {
               Join the Waitlist
             </h2>
             <p className="text-base md:text-lg text-muted-foreground">
-              Get early access to Verso — your travel inbox for saved reels.
+              Join early, and we'll send you a free trip guide based on your saved reels.
             </p>
           </div>
           

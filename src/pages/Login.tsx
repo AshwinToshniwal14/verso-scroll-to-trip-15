@@ -36,19 +36,19 @@ const Login = () => {
           {/* Header */}
           <div className="space-y-4">
             <h1 className="text-3xl font-bold text-slate-black">
-              Ready to build your travel inbox?
+              We've organized your travel chaos.
             </h1>
             <p className="text-lg text-slate-light">
-              Login to see what you've saved.
+              From your 17 saved reels across IG and WhatsApp.
             </p>
           </div>
 
-          {/* Preview of saved content */}
+          {/* Preview of saved Thailand content */}
           <div className="space-y-4">
             <div className="flex items-center justify-center space-x-4 opacity-60">
               <img 
-                src={baliBeach} 
-                alt="Saved content preview" 
+                src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=400&q=80" 
+                alt="Phuket beach villa" 
                 className="w-12 h-12 rounded-lg object-cover"
               />
               <div className="text-sm text-slate-light">
@@ -56,8 +56,8 @@ const Login = () => {
                 <div className="text-xs">Ready to organize</div>
               </div>
               <img 
-                src={lisbonCafe} 
-                alt="Saved content preview" 
+                src="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=400&q=80" 
+                alt="Chiang Mai temple" 
                 className="w-12 h-12 rounded-lg object-cover"
               />
             </div>
@@ -69,11 +69,11 @@ const Login = () => {
               onClick={handleLogin}
               className="w-full bg-coral hover:bg-coral/90 text-white py-6 text-lg font-medium rounded-xl transition-all duration-300 transform hover:scale-105"
             >
-              → Continue to Dashboard
+              → Reveal My Trip
             </Button>
             
             <p className="text-xs text-slate-light">
-              Dummy login - no credentials needed
+              No login needed — just magic.
             </p>
           </div>
         </div>

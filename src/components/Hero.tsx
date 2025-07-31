@@ -17,22 +17,22 @@ export const Hero = () => {
   const transformationSteps = [
     {
       title: "Tag @Verso on Instagram",
-      description: "Found amazing Lisbon cafe",
-      image: lisbonCafe,
+      description: "Found amazing Phuket beach villa",
+      image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=400&q=80",
       icon: "📸",
       overlay: "Tag @Verso"
     },
     {
       title: "Appears in Verso Inbox", 
-      description: "Auto-categorized as 'Lisbon Trip'",
+      description: "Auto-categorized as 'Thailand Trip'",
       image: versoDashboard,
       icon: "📥",
       overlay: "Inbox sorts it"
     },
     {
       title: "Trip builds automatically",
-      description: "Hotels, cafes, maps added",
-      image: baliBeach,
+      description: "Temples, beaches, street food added",
+      image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=400&q=80",
       icon: "🗺️",
       overlay: "Itinerary forms"
     },
@@ -41,7 +41,7 @@ export const Hero = () => {
       description: "One tap books everything",
       image: versoDashboard,
       icon: "✈️",
-      overlay: "Book All"
+      overlay: "→ Show My Trip"
     }
   ];
 
@@ -64,7 +64,7 @@ export const Hero = () => {
             <span className="text-coral">Day-wise itinerary out.</span>
           </h1>
           <h2 className="text-xl mb-6 text-gray-600 font-medium">
-            Your trip, built by what you already saved.
+            You saved 17 reels. We turned them into a trip.
           </h2>
         </div>
 
