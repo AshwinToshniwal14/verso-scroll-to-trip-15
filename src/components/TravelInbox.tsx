@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ContentBubble } from "./ContentBubble";
 import { ThailandCluster } from "./ThailandCluster";
 import { Button } from "@/components/ui/button";
@@ -42,6 +43,7 @@ const savedContent = [
 ];
 
 export const TravelInbox = () => {
+  const navigate = useNavigate();
   const [isAnimated, setIsAnimated] = useState(false);
   const [showCluster, setShowCluster] = useState(false);
 
@@ -151,7 +153,10 @@ export const TravelInbox = () => {
                 </div>
               </div>
               
-              <Button className="w-full bg-coral hover:bg-coral/90 text-white font-medium py-3 text-sm">
+              <Button 
+                onClick={() => navigate('/preview-itinerary')}
+                className="w-full bg-coral hover:bg-coral/90 text-white font-medium py-3 text-sm"
+              >
                 → Preview Itinerary
               </Button>
             </div>
@@ -162,6 +167,7 @@ export const TravelInbox = () => {
       {/* Sticky CTA */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-200 p-4 z-50 md:hidden">
         <Button 
+          onClick={() => navigate('/preview-itinerary')}
           className="w-full bg-[#FF7A64] hover:bg-[#FF7A64]/90 text-white font-semibold py-3 text-base animate-pulse"
         >
           → Show My Trip
@@ -171,6 +177,7 @@ export const TravelInbox = () => {
       {/* Desktop Floating CTA */}
       <div className="hidden md:block fixed bottom-8 right-8 z-50">
         <Button 
+          onClick={() => navigate('/preview-itinerary')}
           className="bg-[#FF7A64] hover:bg-[#FF7A64]/90 text-white font-semibold px-8 py-3 text-base animate-pulse shadow-lg"
         >
           → Show My Trip

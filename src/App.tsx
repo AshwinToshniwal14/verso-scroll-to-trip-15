@@ -7,6 +7,8 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
+import PreviewItinerary from "./pages/PreviewItinerary";
+import ShowMyTrip from "./pages/ShowMyTrip";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -25,6 +27,16 @@ const App = () => (
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/preview-itinerary" element={
+              <ProtectedRoute>
+                <PreviewItinerary />
+              </ProtectedRoute>
+            } />
+            <Route path="/show-my-trip" element={
+              <ProtectedRoute>
+                <ShowMyTrip />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
