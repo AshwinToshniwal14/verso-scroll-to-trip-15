@@ -13,14 +13,14 @@ const savedContent = [
   },
   {
     id: 2,
-    thumbnail: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=400&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1561713528-cdb93dee84ea?auto=format&fit=crop&w=400&q=80",
     source: "WA",
     location: "Bangkok café",
     type: "forward"
   },
   {
     id: 3,
-    thumbnail: "https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=400&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80",
     source: "TT",
     location: "Koh Phi Phi boat tour",
     type: "video"
