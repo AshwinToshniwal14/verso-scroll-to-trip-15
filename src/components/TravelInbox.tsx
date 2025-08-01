@@ -14,7 +14,7 @@ const savedContent = [
   },
   {
     id: 2,
-    thumbnail: "https://images.unsplash.com/photo-1563492065_75925f1a3c?auto=format&fit=crop&w=400&q=80", // Bangkok street cafe with Thai signage
+    thumbnail: "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?auto=format&fit=crop&w=400&q=80", // Bangkok cafe building
     source: "WA",
     location: "Bangkok hidden café",
     type: "forward"
@@ -28,21 +28,21 @@ const savedContent = [
   },
   {
     id: 4,
-    thumbnail: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=400&q=80", // Bangkok skyline at dusk from rooftop
+    thumbnail: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=400&q=80", // Bangkok rooftop night view
     source: "IG",
     location: "Bangkok rooftop views",
     type: "post"
   },
   {
     id: 5,
-    thumbnail: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=400&q=80", // Thai street food market scene
+    thumbnail: "https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?auto=format&fit=crop&w=400&q=80", // Market building
     source: "WA",
     location: "Chatuchak weekend market",
     type: "forward"
   },
   {
     id: 6,
-    thumbnail: "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?auto=format&fit=crop&w=400&q=80", // Phuket beach sunset
+    thumbnail: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=400&q=80", // Phuket beach villa ocean wave
     source: "TT", 
     location: "Phuket sunset beach",
     type: "video"
@@ -135,7 +135,7 @@ export const TravelInbox = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1563492065_75925f1a3c?auto=format&fit=crop&w=60&q=80" 
+                    src="https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?auto=format&fit=crop&w=60&q=80" 
                     alt="Bangkok street food vendor" 
                     className="w-12 h-12 rounded-lg object-cover"
                   />
@@ -148,7 +148,7 @@ export const TravelInbox = () => {
                 
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=60&q=80" 
+                    src="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=60&q=80" 
                     alt="Bangkok skyline rooftop view" 
                     className="w-12 h-12 rounded-lg object-cover"
                   />

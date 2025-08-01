@@ -32,7 +32,7 @@ const PreviewItinerary = () => {
     {
       id: 2,
       title: "Bangkok rooftop bar",
-      thumbnail: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=300&q=80", // Bangkok skyline at night
+      thumbnail: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=300&q=80", // Bangkok rooftop night view
       source: "IG", 
       location: "Bangkok",
       type: "reel"
@@ -48,7 +48,7 @@ const PreviewItinerary = () => {
     {
       id: 4,
       title: "Bangkok street food",
-      thumbnail: "https://images.unsplash.com/photo-1563492065_75925f1a3c?auto=format&fit=crop&w=300&q=80", // Thai street vendor
+      thumbnail: "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?auto=format&fit=crop&w=300&q=80", // Bangkok cafe building
       source: "IG",
       location: "Bangkok",
       type: "post"
@@ -66,7 +66,7 @@ const PreviewItinerary = () => {
         "🛏️ Stay at Mandarin Oriental"
       ],
       source: "IG Reel from @megha.chaos",
-      thumbnail: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=400&q=80",
+      thumbnail: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=400&q=80",
       tags: ["rooftop", "nightlife", "food"]
     },
     {

@@ -24,9 +24,9 @@ const ShowMyTrip = () => {
   const [showLoader, setShowLoader] = useState(false);
 
   const contentThumbnails = [
-    { type: "café", count: 3, image: "https://images.unsplash.com/photo-1561713528-cdb93dee84ea?auto=format&fit=crop&w=150&q=80" },
-    { type: "temples", count: 2, image: "https://images.unsplash.com/photo-1520637836862-4d197d17c50a?auto=format&fit=crop&w=150&q=80" },
-    { type: "beaches", count: 1, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=150&q=80" }
+    { type: "café", count: 3, image: "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?auto=format&fit=crop&w=150&q=80" },
+    { type: "temples", count: 2, image: "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=150&q=80" },
+    { type: "beaches", count: 1, image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=150&q=80" }
   ];
 
   const addCoTraveler = () => {
