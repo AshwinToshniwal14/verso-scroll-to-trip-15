@@ -7,14 +7,14 @@ import { Button } from "@/components/ui/button";
 const savedContent = [
   {
     id: 1,
-    thumbnail: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=400&q=80", // Krabi limestone cliffs and beach
+    thumbnail: "/lovable-uploads/55ad0a6f-7b9b-4086-826c-11e491c23603.png", // Krabi kayaking with limestone cliffs
     source: "IG",
     location: "Krabi island hopping",
     type: "reel"
   },
   {
     id: 2,
-    thumbnail: "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?auto=format&fit=crop&w=400&q=80", // Bangkok cafe building
+    thumbnail: "/lovable-uploads/8006d940-cc72-415d-ad51-54765e172984.png", // Bangkok street food day scene
     source: "WA",
     location: "Bangkok hidden café",
     type: "forward"
@@ -28,21 +28,21 @@ const savedContent = [
   },
   {
     id: 4,
-    thumbnail: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=400&q=80", // Bangkok rooftop night view
+    thumbnail: "/lovable-uploads/944d03be-0191-41af-ac23-8e000d614722.png", // Bangkok rooftop sunset view
     source: "IG",
     location: "Bangkok rooftop views",
     type: "post"
   },
   {
     id: 5,
-    thumbnail: "https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?auto=format&fit=crop&w=400&q=80", // Market building
+    thumbnail: "/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png", // Bangkok night street food market
     source: "WA",
     location: "Chatuchak weekend market",
     type: "forward"
   },
   {
     id: 6,
-    thumbnail: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=400&q=80", // Phuket beach villa ocean wave
+    thumbnail: "/lovable-uploads/7b58305b-628b-4e49-819e-c86113305a31.png", // Phuket beach villa with pool
     source: "TT", 
     location: "Phuket sunset beach",
     type: "video"
@@ -135,7 +135,7 @@ export const TravelInbox = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?auto=format&fit=crop&w=60&q=80" 
+                    src="/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png" 
                     alt="Bangkok street food vendor" 
                     className="w-12 h-12 rounded-lg object-cover"
                   />
@@ -148,7 +148,7 @@ export const TravelInbox = () => {
                 
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=60&q=80" 
+                    src="/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png" 
                     alt="Bangkok skyline rooftop view" 
                     className="w-12 h-12 rounded-lg object-cover"
                   />

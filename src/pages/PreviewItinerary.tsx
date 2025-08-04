@@ -32,7 +32,7 @@ const PreviewItinerary = () => {
     {
       id: 2,
       title: "Bangkok rooftop bar",
-      thumbnail: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=300&q=80", // Bangkok rooftop night view
+      thumbnail: "/lovable-uploads/944d03be-0191-41af-ac23-8e000d614722.png", // Bangkok rooftop sunset view
       source: "IG", 
       location: "Bangkok",
       type: "reel"
@@ -40,7 +40,7 @@ const PreviewItinerary = () => {
     {
       id: 3,
       title: "Railay Beach kayaking",
-      thumbnail: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=300&q=80", // Krabi limestone cliffs
+      thumbnail: "/lovable-uploads/55ad0a6f-7b9b-4086-826c-11e491c23603.png", // Krabi kayaking with limestone cliffs
       source: "WA",
       location: "Krabi", 
       type: "forward"
@@ -48,7 +48,7 @@ const PreviewItinerary = () => {
     {
       id: 4,
       title: "Bangkok street food",
-      thumbnail: "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?auto=format&fit=crop&w=300&q=80", // Bangkok cafe building
+      thumbnail: "/lovable-uploads/8006d940-cc72-415d-ad51-54765e172984.png", // Bangkok street food day scene
       source: "IG",
       location: "Bangkok",
       type: "post"
@@ -66,7 +66,7 @@ const PreviewItinerary = () => {
         "🛏️ Stay at Mandarin Oriental"
       ],
       source: "IG Reel from @megha.chaos",
-      thumbnail: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=400&q=80",
+      thumbnail: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png",
       tags: ["rooftop", "nightlife", "food"]
     },
     {
@@ -92,7 +92,7 @@ const PreviewItinerary = () => {
         "🛏️ Rayavadee luxury resort"
       ],
       source: "WhatsApp from Alex",
-      thumbnail: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=400&q=80",
+      thumbnail: "/lovable-uploads/55ad0a6f-7b9b-4086-826c-11e491c23603.png",
       tags: ["beach", "adventure", "islands"]
     }
   ];
