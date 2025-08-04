@@ -88,6 +88,42 @@ const Dashboard = () => {
       preview: "Sky Bar Rooftop Experience", 
       timeSaved: "2d ago",
       image: "/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png"
+    },
+    {
+      id: 5,
+      type: "beach",
+      location: "Krabi",
+      source: "IG",
+      preview: "Beachfront Resort Paradise",
+      timeSaved: "1d ago",
+      image: "/lovable-uploads/b7f95780-cac4-461d-a389-3a5cbc33c28d.png"
+    },
+    {
+      id: 6,
+      type: "view",
+      location: "Koh Phi Phi",
+      source: "WA",
+      preview: "Aerial Beach Resort View",
+      timeSaved: "3d ago",
+      image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png"
+    },
+    {
+      id: 7,
+      type: "activity",
+      location: "Krabi",
+      source: "TT",
+      preview: "Kayaking Adventure",
+      timeSaved: "5d ago",
+      image: "/lovable-uploads/0147a9e5-789a-47b0-b445-73d474847b02.png"
+    },
+    {
+      id: 8,
+      type: "nature",
+      location: "Railay",
+      source: "IG",
+      preview: "Limestone Cliffs Boat Tour",
+      timeSaved: "1w ago",
+      image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png"
     }
   ];
 
@@ -228,189 +264,143 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="lg:grid lg:grid-cols-3 lg:gap-6 p-4 lg:p-6 pb-20 lg:pb-6">
-          {/* Main Content Column */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Header */}
-            <div className="space-y-4">
-              <div>
-                <h1 className="text-2xl font-bold">Welcome back, Ashwin</h1>
-                <p className="text-muted-foreground">17 saved dreams from Thailand</p>
-              </div>
-
-              {/* Filters */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 overflow-y-auto">
+          <div className="lg:grid lg:grid-cols-3 lg:gap-6 p-4 lg:p-6">
+            {/* Main Content Column */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Header */}
               <div className="space-y-4">
-                <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                  {["All", "Bangkok", "Phuket", "Chiang Mai", "Krabi"].map((filter) => (
-                    <Button
-                      key={filter}
-                      variant={selectedFilter === filter ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setSelectedFilter(filter)}
-                      className="whitespace-nowrap"
-                    >
-                      {filter}
-                    </Button>
-                  ))}
+                <div>
+                  <h1 className="text-2xl font-bold">Welcome back, Ashwin</h1>
+                  <p className="text-muted-foreground">25 saved dreams from Thailand</p>
                 </div>
-                
-                <div className="hidden lg:flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">When</span>
+
+                {/* Filters */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 overflow-x-auto pb-2">
+                    {["All", "Bangkok", "Phuket", "Chiang Mai", "Krabi"].map((filter) => (
+                      <Button
+                        key={filter}
+                        variant={selectedFilter === filter ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setSelectedFilter(filter)}
+                        className="whitespace-nowrap"
+                      >
+                        {filter}
+                      </Button>
+                    ))}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">2 travelers</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">Budget</span>
+                  
+                  <div className="hidden lg:flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">When</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Users className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">2 travelers</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <DollarSign className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">Budget</span>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/* Content Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {savedContent.map((item) => (
+                  <SavedCard key={item.id} item={item} />
+                ))}
+              </div>
             </div>
 
-            {/* Content Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {savedContent.map((item) => (
-                <SavedCard key={item.id} item={item} />
-              ))}
-            </div>
-          </div>
+            {/* Itinerary Preview Panel */}
+            <div className="lg:col-span-1">
+              <Card className="sticky top-6">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    Bangkok Street Food Hop
+                    <Badge variant="secondary" className="text-coral">72% ready</Badge>
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground">6 must-eats • 3 cafes • 37s to build</p>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-lg font-bold">🍜</div>
+                      <div className="text-sm font-medium">6</div>
+                      <div className="text-xs text-muted-foreground">Must-Eats</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold">☕</div>
+                      <div className="text-sm font-medium">3</div>
+                      <div className="text-xs text-muted-foreground">Cafes</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold">📍</div>
+                      <div className="text-sm font-medium">8</div>
+                      <div className="text-xs text-muted-foreground">Locations</div>
+                    </div>
+                  </div>
 
-          {/* Itinerary Preview Panel */}
-          <div className="lg:col-span-1">
-            <Card className="sticky top-6">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  Bangkok Street Food Hop
-                  <Badge variant="secondary" className="text-coral">72% ready</Badge>
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">6 must-eats • 3 cafes • 37s to build</p>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="text-center">
-                    <div className="text-lg font-bold">🍜</div>
-                    <div className="text-sm font-medium">6</div>
-                    <div className="text-xs text-muted-foreground">Must-Eats</div>
+                  <div className="space-y-3">
+                    <h4 className="font-medium text-sm">Day 1 Preview</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+                        <img 
+                          src="/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png" 
+                          alt="Chatuchak Market"
+                          className="w-8 h-8 rounded object-cover"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium">Chatuchak Market</div>
+                          <div className="text-xs text-muted-foreground">9AM • Street Food Tour</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+                        <img 
+                          src="/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png" 
+                          alt="Sky Bar Bangkok"
+                          className="w-8 h-8 rounded object-cover"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium">Sky Bar Bangkok</div>
+                          <div className="text-xs text-muted-foreground">1PM • Rooftop Experience</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-lg font-bold">☕</div>
-                    <div className="text-sm font-medium">3</div>
-                    <div className="text-xs text-muted-foreground">Cafes</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-lg font-bold">📍</div>
-                    <div className="text-sm font-medium">8</div>
-                    <div className="text-xs text-muted-foreground">Locations</div>
-                  </div>
-                </div>
 
-                <div className="space-y-3">
-                  <h4 className="font-medium text-sm">Day 1 Preview</h4>
                   <div className="space-y-2">
-                    <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
-                      <img 
-                        src="/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png" 
-                        alt="Chatuchak Market"
-                        className="w-8 h-8 rounded object-cover"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium">Chatuchak Market</div>
-                        <div className="text-xs text-muted-foreground">9AM • Street Food Tour</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
-                      <img 
-                        src="/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png" 
-                        alt="Sky Bar Bangkok"
-                        className="w-8 h-8 rounded object-cover"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium">Sky Bar Bangkok</div>
-                        <div className="text-xs text-muted-foreground">1PM • Rooftop Experience</div>
-                      </div>
-                    </div>
+                    <Button 
+                      className="w-full bg-coral hover:bg-coral/90 text-white"
+                      onClick={() => navigate('/preview-itinerary')}
+                    >
+                      <Eye className="h-4 w-4 mr-2" />
+                      Preview Full Itinerary
+                    </Button>
+                    <Button variant="outline" className="w-full">
+                      <Edit3 className="h-4 w-4 mr-2" />
+                      Customize
+                    </Button>
                   </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Button 
-                    className="w-full bg-coral hover:bg-coral/90 text-white"
-                    onClick={() => navigate('/preview-itinerary')}
-                  >
-                    <Eye className="h-4 w-4 mr-2" />
-                    Preview Full Itinerary
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    <Edit3 className="h-4 w-4 mr-2" />
-                    Customize
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border">
-        <div className="grid grid-cols-4 gap-1 p-2">
-          <Button variant="default" size="sm" className="flex flex-col gap-1 h-auto py-2">
-            <Home className="h-4 w-4" />
-            <span className="text-xs">Trips</span>
-          </Button>
-          <Button variant="ghost" size="sm" className="flex flex-col gap-1 h-auto py-2">
-            <Heart className="h-4 w-4" />
-            <span className="text-xs">Saved</span>
-          </Button>
-          <Button variant="ghost" size="sm" className="flex flex-col gap-1 h-auto py-2">
-            <Plus className="h-4 w-4" />
-            <span className="text-xs">New</span>
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex flex-col gap-1 h-auto py-2 relative"
-            onClick={() => setChatOpen(true)}
-          >
-            <MessageCircle className="h-4 w-4" />
-            <span className="text-xs">Chat</span>
-            <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs bg-coral text-white">3</Badge>
-          </Button>
-        </div>
-      </div>
-
-      {/* Chat FAB (Desktop) */}
-      <Button
-        className="hidden lg:flex fixed bottom-6 right-6 h-14 w-14 rounded-full bg-coral hover:bg-coral/90 text-white shadow-lg"
-        onClick={() => setChatOpen(true)}
-      >
-        <MessageCircle className="h-6 w-6" />
-        <Badge className="absolute -top-2 -right-2 h-6 w-6 p-0 flex items-center justify-center text-xs bg-secondary text-white">
-          3
-        </Badge>
-      </Button>
-
-      {/* Chat Interface - Bottom Style */}
-      {chatOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50">
-          <div className="fixed bottom-0 left-0 right-0 bg-card rounded-t-2xl shadow-xl max-h-[70vh] flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="font-medium">Chat</h3>
-              <Button variant="ghost" size="sm" onClick={() => setChatOpen(false)}>×</Button>
+        {/* Chat Interface - Always Visible at Bottom (Desktop) */}
+        <div className="hidden lg:block border-t bg-card">
+          <div className="p-4 space-y-4">
+            <div className="bg-muted/50 rounded-lg p-3">
+              <p className="text-sm text-muted-foreground">Let me know if you'd like to adjust the pace or add special interests!</p>
             </div>
             
-            <div className="flex-1 p-4 space-y-4 overflow-y-auto">
-              <div className="bg-muted/50 rounded-lg p-3">
-                <p className="text-sm text-muted-foreground">Let me know if you'd like to adjust the pace or add special interests!</p>
-              </div>
-            </div>
-            
-            <div className="p-4 border-t bg-muted/20">
+            <div className="space-y-2">
               <div className="relative">
                 <Input 
                   placeholder="Ask anything..." 
@@ -425,14 +415,36 @@ const Dashboard = () => {
                   </Button>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+              <p className="text-xs text-muted-foreground flex items-center gap-1">
                 <span className="w-4 h-4 rounded-full bg-muted flex items-center justify-center">⚠</span>
                 Mindtrip can make mistakes. Check important info.
               </p>
             </div>
           </div>
         </div>
-      )}
+      </div>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border z-10">
+        <div className="grid grid-cols-4 gap-1 p-2">
+          <Button variant="default" size="sm" className="flex flex-col gap-1 h-auto py-2">
+            <Home className="h-4 w-4" />
+            <span className="text-xs">Trips</span>
+          </Button>
+          <Button variant="ghost" size="sm" className="flex flex-col gap-1 h-auto py-2">
+            <Heart className="h-4 w-4" />
+            <span className="text-xs">Saved</span>
+          </Button>
+          <Button variant="ghost" size="sm" className="flex flex-col gap-1 h-auto py-2">
+            <Plus className="h-4 w-4" />
+            <span className="text-xs">New</span>
+          </Button>
+          <Button variant="ghost" size="sm" className="flex flex-col gap-1 h-auto py-2">
+            <MessageCircle className="h-4 w-4" />
+            <span className="text-xs">Chat</span>
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
