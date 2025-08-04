@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import {
   Sidebar,
@@ -34,7 +35,10 @@ import {
   Eye,
   Edit3,
   Mic,
-  Sparkles
+  Sparkles,
+  Play,
+  Star,
+  Luggage
 } from "lucide-react";
 
 const Dashboard = () => {
@@ -43,6 +47,8 @@ const Dashboard = () => {
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("home");
+  const [currentView, setCurrentView] = useState("home"); // home, saved, trips, chat
 
   const handleLogout = () => {
     logout();
@@ -277,14 +283,64 @@ const Dashboard = () => {
     );
   };
 
+  // Homepage data
+  const forYouData = [
+    {
+      type: "continuation",
+      title: "Continue Planning Bangkok",
+      progress: 72,
+      image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png",
+      timeToComplete: "37s to build"
+    },
+    {
+      type: "new",
+      title: "Phuket Luxury Escapes",
+      reason: "Based on your saved villas",
+      image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png"
+    }
+  ];
+
+  const jumpBackInData = [
+    {
+      title: "Bangkok Food Hop",
+      lastAccessed: "2 hours ago",
+      days: 14,
+      image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png"
+    },
+    {
+      title: "Chiang Mai Wildlife",
+      lastAccessed: "Yesterday",
+      days: 7,
+      image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png"
+    }
+  ];
+
+  const discoverData = [
+    {
+      name: "Vietnam Food Trail",
+      reason: "Similar to your Bangkok saves",
+      image: "/lovable-uploads/b7f95780-cac4-461d-a389-3a5cbc33c28d.png"
+    },
+    {
+      name: "Bali Beach Retreats",
+      reason: "Popular with Phuket lovers",
+      image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png"
+    },
+    {
+      name: "Malaysian Rainforests",
+      reason: "Like your Chiang Mai interests",
+      image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png"
+    }
+  ];
+
   const AppSidebar = () => {
     const { state } = useSidebar();
 
     const navItems = [
-      { title: "Trips", icon: Home, active: true },
-      { title: "Saved", icon: Heart, active: false },
-      { title: "New Trip", icon: Plus, active: false },
-      { title: "Chat", icon: MessageCircle, active: false, badge: "3" },
+      { title: "Home", icon: Home, id: "home", active: currentView === "home" },
+      { title: "Saved", icon: Heart, id: "saved", active: currentView === "saved" },
+      { title: "Trips", icon: Luggage, id: "trips", active: currentView === "trips" },
+      { title: "Chat", icon: MessageCircle, id: "chat", active: currentView === "chat", badge: "3" },
     ];
 
     return (
@@ -315,11 +371,14 @@ const Dashboard = () => {
               <SidebarMenu>
                 {navItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton 
+                     <SidebarMenuButton 
                       asChild 
                       className={item.active ? "bg-muted text-primary font-medium" : "hover:bg-muted/50"}
                     >
-                      <div className="flex items-center cursor-pointer relative">
+                      <div 
+                        className="flex items-center cursor-pointer relative"
+                        onClick={() => setCurrentView(item.id)}
+                      >
                         <item.icon className="h-4 w-4 mr-3" />
                         {state === "expanded" && (
                           <>
@@ -401,102 +460,392 @@ const Dashboard = () => {
         <main className="flex-1 flex flex-col pt-12 pb-20 lg:pb-28">
           <div className="flex-1 overflow-y-auto">
             <div className="p-4 lg:p-6">
-              {/* Main Content */}
-              <div className="space-y-6">
-                {/* Header */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                  <div>
-                    <h1 className="text-2xl font-bold">Welcome back, Ashwin</h1>
-                    <p className="text-muted-foreground">We've organized your 25 saved dreams from Thailand into a complete itinerary</p>
-                  </div>
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <Badge variant="secondary" className="text-coral font-medium">72% ready</Badge>
-                      <Badge variant="secondary">6 must-eats</Badge>
-                      <Badge variant="secondary">3 cafes</Badge>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => navigate('/preview-itinerary')}
-                        className="flex items-center gap-2"
-                      >
-                        <Eye className="h-4 w-4" />
-                        Full Itinerary
-                      </Button>
-                    </div>
+              {/* Render different views based on currentView */}
+              {currentView === "home" && (
+                <div className="space-y-8">
+                  <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold mb-2">Where to today, Ashwin?</h1>
+                    <p className="text-muted-foreground">Hey there, I'm here to assist you in planning your experience. Ask me anything travel related.</p>
                   </div>
 
-                  {/* Filters */}
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                      {["All", "Bangkok", "Phuket", "Chiang Mai", "Krabi"].map((filter) => (
-                        <Button
-                          key={filter}
-                          variant={selectedFilter === filter ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => setSelectedFilter(filter)}
-                          className="whitespace-nowrap"
-                        >
-                          {filter}
-                        </Button>
-                      ))}
+                  {/* Three Core Sections Grid */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Section 1: For You */}
+                    <div className="space-y-4">
+                      <h2 className="text-xl font-bold">For You</h2>
+                      <div className="space-y-4">
+                        {forYouData.map((item, idx) => (
+                          <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                            <div className="relative">
+                              <img 
+                                src={item.image} 
+                                alt={item.title}
+                                className="w-full h-32 object-cover rounded-t-lg"
+                              />
+                              {item.type === "continuation" && (
+                                <Badge className="absolute top-2 right-2 bg-coral text-white">
+                                  {item.progress}% ready
+                                </Badge>
+                              )}
+                            </div>
+                            <CardContent className="p-4">
+                              <h3 className="font-medium mb-2">{item.title}</h3>
+                              {item.type === "continuation" && (
+                                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                  <Clock className="h-3 w-3" />
+                                  <span>{item.timeToComplete}</span>
+                                </div>
+                              )}
+                              {item.type === "new" && (
+                                <p className="text-xs text-muted-foreground">{item.reason}</p>
+                              )}
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
                     </div>
-                    
-                    <div className="hidden lg:flex items-center gap-4">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">When</span>
+
+                    {/* Section 2: Jump Back In */}
+                    <div className="space-y-4">
+                      <h2 className="text-xl font-bold">Jump Back In</h2>
+                      <div className="space-y-4">
+                        {jumpBackInData.map((trip, idx) => (
+                          <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                            <div className="relative">
+                              <img 
+                                src={trip.image} 
+                                alt={trip.title}
+                                className="w-full h-32 object-cover rounded-t-lg"
+                              />
+                            </div>
+                            <CardContent className="p-4">
+                              <h3 className="font-medium mb-2">{trip.title}</h3>
+                              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                <span>{trip.lastAccessed}</span>
+                                <span>{trip.days} days</span>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Users className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">2 travelers</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <DollarSign className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Budget</span>
+                    </div>
+
+                    {/* Section 3: Discover */}
+                    <div className="space-y-4">
+                      <h2 className="text-xl font-bold">Discover South East Asia</h2>
+                      <div className="space-y-4">
+                        {discoverData.map((destination, idx) => (
+                          <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                            <div className="relative">
+                              <img 
+                                src={destination.image} 
+                                alt={destination.name}
+                                className="w-full h-32 object-cover rounded-t-lg"
+                              />
+                            </div>
+                            <CardContent className="p-4">
+                              <h3 className="font-medium mb-2">{destination.name}</h3>
+                              <p className="text-xs text-muted-foreground">{destination.reason}</p>
+                            </CardContent>
+                          </Card>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
+              )}
 
-                {/* Day-wise Itinerary Sections */}
-                <div className="space-y-8">
-                  {getFilteredDaySections().map((section) => (
-                    <div 
-                      key={section.id} 
-                      className="space-y-4 cursor-pointer hover:shadow-lg transition-all duration-200 p-4 rounded-lg border border-transparent hover:border-border"
-                      onClick={() => handleDayCardClick(section.id)}
-                    >
-                      <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-bold">{section.title}</h2>
-                        <Badge className={section.badge.color}>{section.badge.text}</Badge>
-                      </div>
-                      <div className="lg:flex lg:gap-6">
-                        <div className="lg:w-1/3 mb-4 lg:mb-0">
-                          <img 
-                            src={section.image} 
-                            alt={section.title}
-                            className="w-full h-48 object-cover rounded-lg"
-                          />
+              {currentView === "saved" && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h1 className="text-2xl font-bold">Saved Content</h1>
+                  </div>
+
+                  <Tabs defaultValue="destinations" className="w-full">
+                    <TabsList className="grid w-full grid-cols-3">
+                      <TabsTrigger value="destinations">Destinations</TabsTrigger>
+                      <TabsTrigger value="lists">Saved Lists</TabsTrigger>
+                      <TabsTrigger value="domestic">Domestic Escapes</TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="destinations" className="space-y-6">
+                      <Card className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                          <h2 className="text-xl font-bold">Thailand</h2>
+                          <Badge variant="secondary">25 saved dreams</Badge>
                         </div>
-                        <div className="lg:w-2/3 space-y-3">
-                          <p className="text-muted-foreground">
-                            {section.description}
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            {section.tags.map((tag, idx) => (
-                              <Badge key={idx} variant="secondary">{tag}</Badge>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                          {[
+                            { name: "Bangkok", count: 12, image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png" },
+                            { name: "Phuket", count: 8, image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png" },
+                            { name: "Chiang Mai", count: 5, image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png" }
+                          ].map((location, idx) => (
+                            <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                              <div className="relative">
+                                <img 
+                                  src={location.image} 
+                                  alt={location.name}
+                                  className="w-full h-24 object-cover rounded-t-lg"
+                                />
+                                <Badge className="absolute top-2 right-2 bg-coral text-white">
+                                  {location.count}
+                                </Badge>
+                              </div>
+                              <CardContent className="p-3">
+                                <h3 className="font-medium text-sm">{location.name}</h3>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                        
+                        <div className="border-t pt-4">
+                          <h3 className="font-medium mb-3">Contributors</h3>
+                          <div className="flex items-center gap-4">
+                            {[
+                              { name: "You", count: 15 },
+                              { name: "Sarah", count: 8 },
+                              { name: "Raj", count: 2 }
+                            ].map((contributor, idx) => (
+                              <div key={idx} className="flex items-center gap-2">
+                                <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center text-xs font-medium">
+                                  {contributor.name[0]}
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium">{contributor.name}</p>
+                                  <p className="text-xs text-muted-foreground">{contributor.count} saves</p>
+                                </div>
+                              </div>
                             ))}
                           </div>
-                          <div className="text-xs text-muted-foreground">
-                            Source: <a href="#" className="text-coral hover:underline">{section.source}</a>
-                          </div>
+                        </div>
+                      </Card>
+                    </TabsContent>
+                    
+                    <TabsContent value="lists" className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {[
+                          { title: "Top Cocktail Bars in Bangalore", count: "12 venues", image: "/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png", tags: ["Nightlife", "Local"] },
+                          { title: "New Restaurants (Last Month)", count: "8 spots", image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png" },
+                          { title: "Best Ramen in Your City", count: "5 specialists", image: "/lovable-uploads/b7f95780-cac4-461d-a389-3a5cbc33c28d.png" }
+                        ].map((list, idx) => (
+                          <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                            <div className="relative">
+                              <img 
+                                src={list.image} 
+                                alt={list.title}
+                                className="w-full h-32 object-cover rounded-t-lg"
+                              />
+                            </div>
+                            <CardContent className="p-4">
+                              <h3 className="font-medium mb-2">{list.title}</h3>
+                              <p className="text-sm text-muted-foreground mb-2">{list.count}</p>
+                              {list.tags && (
+                                <div className="flex gap-1">
+                                  {list.tags.map((tag, tagIdx) => (
+                                    <Badge key={tagIdx} variant="secondary" className="text-xs">
+                                      {tag}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    </TabsContent>
+                    
+                    <TabsContent value="domestic" className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {[
+                          { title: "Karnataka Monsoons", description: "Coffee estates & waterfalls", season: "June-Sept", image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png" },
+                          { title: "Weekend Hikes near Bangalore", count: "15 trails", distance: "<100km", image: "/lovable-uploads/b7f95780-cac4-461d-a389-3a5cbc33c28d.png" },
+                          { title: "Luxury Beach Getaways", locations: ["Goa", "Gokarna"], image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png" }
+                        ].map((escape, idx) => (
+                          <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                            <div className="relative">
+                              <img 
+                                src={escape.image} 
+                                alt={escape.title}
+                                className="w-full h-32 object-cover rounded-t-lg"
+                              />
+                            </div>
+                            <CardContent className="p-4">
+                              <h3 className="font-medium mb-2">{escape.title}</h3>
+                              {escape.description && <p className="text-sm text-muted-foreground mb-1">{escape.description}</p>}
+                              {escape.season && <p className="text-xs text-muted-foreground">Season: {escape.season}</p>}
+                              {escape.count && <p className="text-sm text-muted-foreground mb-1">{escape.count}</p>}
+                              {escape.distance && <p className="text-xs text-muted-foreground">Distance: {escape.distance}</p>}
+                              {escape.locations && (
+                                <div className="flex gap-1 mt-2">
+                                  {escape.locations.map((location, locIdx) => (
+                                    <Badge key={locIdx} variant="secondary" className="text-xs">
+                                      {location}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </div>
+              )}
+
+              {currentView === "trips" && (
+                <div className="space-y-6">
+                  {/* Header */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                    <div>
+                      <h1 className="text-2xl font-bold">Welcome back, Ashwin</h1>
+                      <p className="text-muted-foreground">We've organized your 25 saved dreams from Thailand into a complete itinerary</p>
+                    </div>
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <Badge variant="secondary" className="text-coral font-medium">72% ready</Badge>
+                        <Badge variant="secondary">6 must-eats</Badge>
+                        <Badge variant="secondary">3 cafes</Badge>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => navigate('/preview-itinerary')}
+                          className="flex items-center gap-2"
+                        >
+                          <Eye className="h-4 w-4" />
+                          Full Itinerary
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Filters */}
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2 overflow-x-auto pb-2">
+                        {["All", "Bangkok", "Phuket", "Chiang Mai", "Krabi"].map((filter) => (
+                          <Button
+                            key={filter}
+                            variant={selectedFilter === filter ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setSelectedFilter(filter)}
+                            className="whitespace-nowrap"
+                          >
+                            {filter}
+                          </Button>
+                        ))}
+                      </div>
+                      
+                      <div className="hidden lg:flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm text-muted-foreground">When</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Users className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm text-muted-foreground">2 travelers</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <DollarSign className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm text-muted-foreground">Budget</span>
                         </div>
                       </div>
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Day-wise Itinerary Sections */}
+                  <div className="space-y-8">
+                    {getFilteredDaySections().map((section) => (
+                      <div 
+                        key={section.id} 
+                        className="space-y-4 cursor-pointer hover:shadow-lg transition-all duration-200 p-4 rounded-lg border border-transparent hover:border-border"
+                        onClick={() => handleDayCardClick(section.id)}
+                      >
+                        <div className="flex items-center justify-between">
+                          <h2 className="text-xl font-bold">{section.title}</h2>
+                          <Badge className={section.badge.color}>{section.badge.text}</Badge>
+                        </div>
+                        <div className="lg:flex lg:gap-6">
+                          <div className="lg:w-1/3 mb-4 lg:mb-0">
+                            <img 
+                              src={section.image} 
+                              alt={section.title}
+                              className="w-full h-48 object-cover rounded-lg"
+                            />
+                          </div>
+                          <div className="lg:w-2/3 space-y-3">
+                            <p className="text-muted-foreground">
+                              {section.description}
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              {section.tags.map((tag, idx) => (
+                                <Badge key={idx} variant="secondary">{tag}</Badge>
+                              ))}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              Source: <a href="#" className="text-coral hover:underline">{section.source}</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {currentView === "chat" && (
+                <div className="space-y-6 max-w-4xl mx-auto">
+                  <div className="text-center space-y-4">
+                    <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto">
+                      <div className="w-16 h-16 bg-gradient-to-br from-coral to-orange-300 rounded-full flex items-center justify-center">
+                        🌍
+                      </div>
+                    </div>
+                    <h1 className="text-3xl font-bold">Where to today, Ashwin?</h1>
+                    <p className="text-muted-foreground max-w-2xl mx-auto">
+                      Hey there, I'm here to assist you in planning your experience. Ask me anything travel related.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="bg-muted/50 rounded-lg p-4">
+                      <p className="text-sm text-muted-foreground mb-3">Quick suggestions:</p>
+                      <div className="flex flex-wrap gap-2">
+                        <Button variant="outline" size="sm" className="flex items-center gap-2">
+                          🌿 <span>Add nature day</span>
+                        </Button>
+                        <Button variant="outline" size="sm" className="flex items-center gap-2">
+                          🍜 <span>More food experiences</span>
+                        </Button>
+                        <Button variant="outline" size="sm" className="flex items-center gap-2">
+                          ⚡ <span>Faster pace</span>
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div className="relative">
+                      <Input 
+                        placeholder="Ask anything..." 
+                        className="pr-24 rounded-full border-2 bg-background h-12"
+                      />
+                      <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-muted">
+                          <Mic className="h-4 w-4 text-coral" />
+                        </Button>
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-muted">
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-muted">
+                          <MessageCircle className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1">
+                      <span className="w-4 h-4 rounded-full bg-muted flex items-center justify-center">⚠</span>
+                      Verso can make mistakes. Check important info.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </main>
@@ -537,21 +886,44 @@ const Dashboard = () => {
         {/* Mobile Bottom Navigation */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border z-10">
           <div className="grid grid-cols-4 gap-1 p-2">
-            <Button variant="default" size="sm" className="flex flex-col gap-1 h-auto py-2">
+            <Button 
+              variant={currentView === "home" ? "default" : "ghost"} 
+              size="sm" 
+              className="flex flex-col gap-1 h-auto py-2"
+              onClick={() => setCurrentView("home")}
+            >
               <Home className="h-4 w-4" />
-              <span className="text-xs">Trips</span>
+              <span className="text-xs">Home</span>
             </Button>
-            <Button variant="ghost" size="sm" className="flex flex-col gap-1 h-auto py-2">
+            <Button 
+              variant={currentView === "saved" ? "default" : "ghost"} 
+              size="sm" 
+              className="flex flex-col gap-1 h-auto py-2"
+              onClick={() => setCurrentView("saved")}
+            >
               <Heart className="h-4 w-4" />
               <span className="text-xs">Saved</span>
             </Button>
-            <Button variant="ghost" size="sm" className="flex flex-col gap-1 h-auto py-2">
-              <Plus className="h-4 w-4" />
-              <span className="text-xs">New</span>
+            <Button 
+              variant={currentView === "trips" ? "default" : "ghost"} 
+              size="sm" 
+              className="flex flex-col gap-1 h-auto py-2"
+              onClick={() => setCurrentView("trips")}
+            >
+              <Luggage className="h-4 w-4" />
+              <span className="text-xs">Trips</span>
             </Button>
-            <Button variant="ghost" size="sm" className="flex flex-col gap-1 h-auto py-2">
+            <Button 
+              variant={currentView === "chat" ? "default" : "ghost"} 
+              size="sm" 
+              className="flex flex-col gap-1 h-auto py-2 relative"
+              onClick={() => setCurrentView("chat")}
+            >
               <MessageCircle className="h-4 w-4" />
               <span className="text-xs">Chat</span>
+              <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs bg-coral text-white">
+                3
+              </Badge>
             </Button>
           </div>
         </div>
