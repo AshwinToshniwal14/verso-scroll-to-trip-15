@@ -49,6 +49,77 @@ const Dashboard = () => {
     navigate('/');
   };
 
+  // Filter day sections based on selected location
+  const getFilteredDaySections = () => {
+    const daySections = [
+      {
+        id: "bangkok",
+        title: "Day 1 & 2: Cultural Heart of Bangkok",
+        locations: ["Bangkok"],
+        badge: { text: "Creator Favourite", color: "bg-orange-100 text-orange-700 border-orange-200" },
+        image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png",
+        description: "Bangkok, Thailand's vibrant capital, is known for its ornate temples, bustling street markets, and incredible street food scene. Experience the cultural heart of Thailand through authentic flavors and historic landmarks.",
+        tags: ["Street Food Tours", "Temple Visits", "Sky Bar"],
+        source: "@bangkok_foodie_tales • Instagram"
+      },
+      {
+        id: "phuket",
+        title: "Day 3 & 4: Tropical Paradise in Phuket",
+        locations: ["Phuket", "Koh Phi Phi"],
+        badge: { text: "Popular with your friends", color: "bg-blue-100 text-blue-700 border-blue-200" },
+        image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png",
+        description: "Phuket, Thailand's largest island, is known for its beautiful beaches, vibrant nightlife, and rich culture. Visitors can enjoy a variety of outdoor activities, explore local markets and temples, and try delicious Thai cuisine.",
+        tags: ["Beach Resorts", "Island Hopping", "Nightlife"],
+        source: "Thailand Travel Guide • TikTok"
+      },
+      {
+        id: "krabi",
+        title: "Day 5 & 6: Adventure in Krabi",
+        locations: ["Krabi"],
+        badge: { text: "Creator Favourite", color: "bg-green-100 text-green-700 border-green-200" },
+        image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png",
+        description: "Krabi province offers stunning limestone karsts, pristine beaches, and incredible rock climbing opportunities. Experience the natural beauty of Thailand through boat tours and outdoor adventures.",
+        tags: ["Limestone Cliffs", "Kayaking", "Rock Climbing"],
+        source: "@krabi_adventures • Instagram"
+      },
+      {
+        id: "samui",
+        title: "Day 7-9: Luxury Escape in Koh Samui",
+        locations: ["Koh Samui"],
+        badge: { text: "Popular with your friends", color: "bg-purple-100 text-purple-700 border-purple-200" },
+        image: "/lovable-uploads/b7f95780-cac4-461d-a389-3a5cbc33c28d.png",
+        description: "Koh Samui offers luxury resorts, pristine beaches, and a more relaxed island atmosphere. Perfect for unwinding with spa treatments, beachfront dining, and sunset views.",
+        tags: ["Luxury Resorts", "Spa Treatments", "Beach Clubs"],
+        source: "Luxury Travel Thailand • WhatsApp"
+      },
+      {
+        id: "phangan",
+        title: "Day 10 & 11: Full Moon Paradise in Koh Phangan",
+        locations: ["Koh Phangan"],
+        badge: { text: "Creator Favourite", color: "bg-yellow-100 text-yellow-700 border-yellow-200" },
+        image: "/lovable-uploads/0147a9e5-789a-47b0-b445-73d474847b02.png",
+        description: "Koh Phangan is famous for its Full Moon Parties, pristine beaches, and bohemian atmosphere. Experience the island's unique blend of party culture and natural beauty.",
+        tags: ["Full Moon Party", "Beach Bars", "Yoga Retreats"],
+        source: "@phangan_nights • TikTok"
+      }
+    ];
+
+    if (selectedFilter === "All") {
+      return daySections;
+    }
+
+    return daySections.filter(section => 
+      section.locations.some(location => 
+        location.toLowerCase().includes(selectedFilter.toLowerCase()) ||
+        selectedFilter.toLowerCase().includes(location.toLowerCase())
+      )
+    );
+  };
+
+  const handleDayCardClick = (sectionId: string) => {
+    navigate('/itinerary-dashboard');
+  };
+
   // Sample data
   const trips = [
     {
@@ -329,14 +400,30 @@ const Dashboard = () => {
         {/* Main Content */}
         <main className="flex-1 flex flex-col pt-12 pb-20 lg:pb-28">
           <div className="flex-1 overflow-y-auto">
-            <div className="lg:grid lg:grid-cols-3 lg:gap-6 p-4 lg:p-6">
-              {/* Main Content Column */}
-              <div className="lg:col-span-2 space-y-6">
+            <div className="p-4 lg:p-6">
+              {/* Main Content */}
+              <div className="space-y-6">
                 {/* Header */}
                 <div className="space-y-4">
-                  <div>
-                    <h1 className="text-2xl font-bold">Welcome back, Ashwin</h1>
-                    <p className="text-muted-foreground">25 saved dreams from Thailand</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h1 className="text-2xl font-bold">Welcome back, Ashwin</h1>
+                      <p className="text-muted-foreground">25 saved dreams from Thailand</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Badge variant="secondary" className="text-coral font-medium">72% ready</Badge>
+                      <Badge variant="secondary">6 must-eats</Badge>
+                      <Badge variant="secondary">3 cafes</Badge>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => navigate('/itinerary-dashboard')}
+                        className="flex items-center gap-2"
+                      >
+                        <Eye className="h-4 w-4" />
+                        Full Itinerary
+                      </Button>
+                    </div>
                   </div>
 
                   {/* Filters */}
@@ -374,230 +461,41 @@ const Dashboard = () => {
 
                 {/* Day-wise Itinerary Sections */}
                 <div className="space-y-8">
-                  {/* Day 1 & 2: Bangkok */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-xl font-bold">Day 1 & 2: Cultural Heart of Bangkok</h2>
-                      <Badge className="bg-orange-100 text-orange-700 border-orange-200">Creator Favourite</Badge>
-                    </div>
-                    <div className="lg:flex lg:gap-6">
-                      <div className="lg:w-1/3 mb-4 lg:mb-0">
-                        <img 
-                          src="/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png" 
-                          alt="Bangkok Street Food"
-                          className="w-full h-48 object-cover rounded-lg"
-                        />
+                  {getFilteredDaySections().map((section) => (
+                    <div 
+                      key={section.id} 
+                      className="space-y-4 cursor-pointer hover:shadow-lg transition-all duration-200 p-4 rounded-lg border border-transparent hover:border-border"
+                      onClick={() => handleDayCardClick(section.id)}
+                    >
+                      <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-bold">{section.title}</h2>
+                        <Badge className={section.badge.color}>{section.badge.text}</Badge>
                       </div>
-                      <div className="lg:w-2/3 space-y-3">
-                        <p className="text-muted-foreground">
-                          Bangkok, Thailand's vibrant capital, is known for its ornate temples, bustling street markets, and incredible street food scene. Experience the cultural heart of Thailand through authentic flavors and historic landmarks.
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          <Badge variant="secondary">Street Food Tours</Badge>
-                          <Badge variant="secondary">Temple Visits</Badge>
-                          <Badge variant="secondary">Sky Bar</Badge>
+                      <div className="lg:flex lg:gap-6">
+                        <div className="lg:w-1/3 mb-4 lg:mb-0">
+                          <img 
+                            src={section.image} 
+                            alt={section.title}
+                            className="w-full h-48 object-cover rounded-lg"
+                          />
                         </div>
-                        <div className="text-xs text-muted-foreground">
-                          Source: <a href="#" className="text-coral hover:underline">@bangkok_foodie_tales</a> • Instagram
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Day 3 & 4: Phuket, Koh Phi Phi */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-xl font-bold">Day 3 & 4: Tropical Paradise in Phuket</h2>
-                      <Badge className="bg-blue-100 text-blue-700 border-blue-200">Popular with your friends</Badge>
-                    </div>
-                    <div className="lg:flex lg:gap-6">
-                      <div className="lg:w-1/3 mb-4 lg:mb-0">
-                        <img 
-                          src="/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png" 
-                          alt="Phuket Beach Resort"
-                          className="w-full h-48 object-cover rounded-lg"
-                        />
-                      </div>
-                      <div className="lg:w-2/3 space-y-3">
-                        <p className="text-muted-foreground">
-                          Phuket, Thailand's largest island, is known for its beautiful beaches, vibrant nightlife, and rich culture. Visitors can enjoy a variety of outdoor activities, explore local markets and temples, and try delicious Thai cuisine.
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          <Badge variant="secondary">Beach Resorts</Badge>
-                          <Badge variant="secondary">Island Hopping</Badge>
-                          <Badge variant="secondary">Nightlife</Badge>
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Source: <a href="#" className="text-coral hover:underline">Thailand Travel Guide</a> • TikTok
+                        <div className="lg:w-2/3 space-y-3">
+                          <p className="text-muted-foreground">
+                            {section.description}
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            {section.tags.map((tag, idx) => (
+                              <Badge key={idx} variant="secondary">{tag}</Badge>
+                            ))}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            Source: <a href="#" className="text-coral hover:underline">{section.source}</a>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Day 5 & 6: Krabi */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-xl font-bold">Day 5 & 6: Adventure in Krabi</h2>
-                      <Badge className="bg-green-100 text-green-700 border-green-200">Creator Favourite</Badge>
-                    </div>
-                    <div className="lg:flex lg:gap-6">
-                      <div className="lg:w-1/3 mb-4 lg:mb-0">
-                        <img 
-                          src="/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png" 
-                          alt="Krabi Limestone Cliffs"
-                          className="w-full h-48 object-cover rounded-lg"
-                        />
-                      </div>
-                      <div className="lg:w-2/3 space-y-3">
-                        <p className="text-muted-foreground">
-                          Krabi province offers stunning limestone karsts, pristine beaches, and incredible rock climbing opportunities. Experience the natural beauty of Thailand through boat tours and outdoor adventures.
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          <Badge variant="secondary">Limestone Cliffs</Badge>
-                          <Badge variant="secondary">Kayaking</Badge>
-                          <Badge variant="secondary">Rock Climbing</Badge>
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Source: <a href="#" className="text-coral hover:underline">@krabi_adventures</a> • Instagram
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Day 7, 8 & 9: Koh Samui */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-xl font-bold">Day 7-9: Luxury Escape in Koh Samui</h2>
-                      <Badge className="bg-purple-100 text-purple-700 border-purple-200">Popular with your friends</Badge>
-                    </div>
-                    <div className="lg:flex lg:gap-6">
-                      <div className="lg:w-1/3 mb-4 lg:mb-0">
-                        <img 
-                          src="/lovable-uploads/b7f95780-cac4-461d-a389-3a5cbc33c28d.png" 
-                          alt="Koh Samui Beach"
-                          className="w-full h-48 object-cover rounded-lg"
-                        />
-                      </div>
-                      <div className="lg:w-2/3 space-y-3">
-                        <p className="text-muted-foreground">
-                          Koh Samui offers luxury resorts, pristine beaches, and a more relaxed island atmosphere. Perfect for unwinding with spa treatments, beachfront dining, and sunset views.
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          <Badge variant="secondary">Luxury Resorts</Badge>
-                          <Badge variant="secondary">Spa Treatments</Badge>
-                          <Badge variant="secondary">Beach Clubs</Badge>
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Source: <a href="#" className="text-coral hover:underline">Luxury Travel Thailand</a> • WhatsApp
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Day 10 & 11: Koh Phangan */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-xl font-bold">Day 10 & 11: Full Moon Paradise in Koh Phangan</h2>
-                      <Badge className="bg-yellow-100 text-yellow-700 border-yellow-200">Creator Favourite</Badge>
-                    </div>
-                    <div className="lg:flex lg:gap-6">
-                      <div className="lg:w-1/3 mb-4 lg:mb-0">
-                        <img 
-                          src="/lovable-uploads/0147a9e5-789a-47b0-b445-73d474847b02.png" 
-                          alt="Koh Phangan Beach"
-                          className="w-full h-48 object-cover rounded-lg"
-                        />
-                      </div>
-                      <div className="lg:w-2/3 space-y-3">
-                        <p className="text-muted-foreground">
-                          Koh Phangan is famous for its Full Moon Parties, pristine beaches, and bohemian atmosphere. Experience the island's unique blend of party culture and natural beauty.
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          <Badge variant="secondary">Full Moon Party</Badge>
-                          <Badge variant="secondary">Beach Bars</Badge>
-                          <Badge variant="secondary">Yoga Retreats</Badge>
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Source: <a href="#" className="text-coral hover:underline">@phangan_nights</a> • TikTok
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              </div>
-
-              {/* Itinerary Preview Panel */}
-              <div className="lg:col-span-1">
-                <Card className="sticky top-20">
-                  <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      Bangkok Street Food Hop
-                      <Badge variant="secondary" className="text-coral">72% ready</Badge>
-                    </CardTitle>
-                    <p className="text-sm text-muted-foreground">6 must-eats • 3 cafes • 37s to build</p>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="text-center">
-                        <div className="text-lg font-bold">🍜</div>
-                        <div className="text-sm font-medium">6</div>
-                        <div className="text-xs text-muted-foreground">Must-Eats</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-lg font-bold">☕</div>
-                        <div className="text-sm font-medium">3</div>
-                        <div className="text-xs text-muted-foreground">Cafes</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-lg font-bold">📍</div>
-                        <div className="text-sm font-medium">8</div>
-                        <div className="text-xs text-muted-foreground">Locations</div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <h4 className="font-medium text-sm">Day 1 Preview</h4>
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
-                          <img 
-                            src="/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png" 
-                            alt="Chatuchak Market"
-                            className="w-8 h-8 rounded object-cover"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium">Chatuchak Market</div>
-                            <div className="text-xs text-muted-foreground">9AM • Street Food Tour</div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
-                          <img 
-                            src="/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png" 
-                            alt="Sky Bar Bangkok"
-                            className="w-8 h-8 rounded object-cover"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium">Sky Bar Bangkok</div>
-                            <div className="text-xs text-muted-foreground">1PM • Rooftop Experience</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Button 
-                        className="w-full bg-coral hover:bg-coral/90 text-white"
-                        onClick={() => navigate('/preview-itinerary')}
-                      >
-                        <Eye className="h-4 w-4 mr-2" />
-                        Preview Full Itinerary
-                      </Button>
-                      <Button variant="outline" className="w-full">
-                        <Edit3 className="h-4 w-4 mr-2" />
-                        Customize
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
               </div>
             </div>
           </div>
