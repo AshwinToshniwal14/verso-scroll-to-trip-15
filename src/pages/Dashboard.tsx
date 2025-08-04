@@ -6,7 +6,13 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useNavigate } from "react-router-dom";
+import { format, addDays, differenceInDays } from "date-fns";
+import { cn } from "@/lib/utils";
 import {
   Sidebar,
   SidebarContent,
@@ -38,7 +44,19 @@ import {
   Sparkles,
   Play,
   Star,
-  Luggage
+  Luggage,
+  CalendarIcon,
+  Minus,
+  Coffee,
+  UtensilsCrossed,
+  Mountain,
+  Baby,
+  UsersIcon,
+  Camera,
+  Compass,
+  CheckCircle,
+  XCircle,
+  AlertCircle
 } from "lucide-react";
 
 const Dashboard = () => {
@@ -49,6 +67,22 @@ const Dashboard = () => {
   const [chatOpen, setChatOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
   const [currentView, setCurrentView] = useState("home"); // home, saved, trips, chat
+  
+  // Modal states
+  const [showDateModal, setShowDateModal] = useState(false);
+  const [showTravelersModal, setShowTravelersModal] = useState(false);
+  const [showBudgetModal, setShowBudgetModal] = useState(false);
+  const [showProgressModal, setShowProgressModal] = useState(false);
+  const [showMustEatsModal, setShowMustEatsModal] = useState(false);
+  const [showExperiencesModal, setShowExperiencesModal] = useState(false);
+  
+  // Trip planning state
+  const [startDate, setStartDate] = useState<Date | undefined>();
+  const [endDate, setEndDate] = useState<Date | undefined>();
+  const [adults, setAdults] = useState(2);
+  const [children, setChildren] = useState(0);
+  const [selectedTravelerType, setSelectedTravelerType] = useState("couple");
+  const [selectedBudget, setSelectedBudget] = useState("sensible");
 
   const handleLogout = () => {
     logout();
@@ -124,6 +158,74 @@ const Dashboard = () => {
 
   const handleDayCardClick = (sectionId: string) => {
     navigate('/preview-itinerary');
+  };
+
+  // Sample data for modals
+  const progressData = {
+    completed: [
+      { title: "Accommodation", cost: "$840", status: "complete" },
+      { title: "Local Transportation", cost: "$150", status: "complete" }
+    ],
+    pending: [
+      { title: "Flights", cost: "$320", status: "pending" },
+      { title: "Activities", completed: 4, total: 6, cost: "$180", status: "partial" }
+    ],
+    totalCost: 1490
+  };
+
+  const mustEatsData = [
+    {
+      name: "Jay Fai",
+      type: "Michelin Star Street Food",
+      location: "Bangkok",
+      source: "@bangkok_foodie (IG)",
+      image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png"
+    },
+    {
+      name: "Thipsamai Pad Thai",
+      type: "World Famous",
+      location: "Bangkok",
+      source: "Sarah's save",
+      image: "/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png"
+    },
+    {
+      name: "Kan Eang@Pier",
+      type: "Seafood Paradise",
+      location: "Phuket",
+      source: "@phuket_eats (TikTok)",
+      image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png"
+    }
+  ];
+
+  const experiencesData = [
+    {
+      name: "Khlong Boat Tour",
+      type: "Hidden Canal Adventure",
+      location: "Bangkok",
+      uniqueness: "Off-beat",
+      image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png"
+    },
+    {
+      name: "Ethical Elephant Sanctuary",
+      type: "Wildlife",
+      location: "Chiang Mai",
+      uniqueness: "Conservation Focused",
+      image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png"
+    },
+    {
+      name: "Secret Lagoon Kayaking",
+      type: "Hidden Paradise",
+      location: "Krabi",
+      uniqueness: "Local Secret",
+      image: "/lovable-uploads/7b58305b-628b-4e49-819e-c86113305a31.png"
+    }
+  ];
+
+  const getDaysCount = () => {
+    if (startDate && endDate) {
+      return differenceInDays(endDate, startDate) + 1;
+    }
+    return 14; // default
   };
 
   // Sample data
@@ -371,27 +473,38 @@ const Dashboard = () => {
               <SidebarMenu>
                 {navItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                     <SidebarMenuButton 
-                      asChild 
-                      className={item.active ? "bg-muted text-primary font-medium" : "hover:bg-muted/50"}
-                    >
-                      <div 
-                        className="flex items-center cursor-pointer relative"
-                        onClick={() => setCurrentView(item.id)}
-                      >
-                        <item.icon className="h-4 w-4 mr-3" />
-                        {state === "expanded" && (
-                          <>
-                            <span>{item.title}</span>
-                            {item.badge && (
-                              <Badge className="ml-auto h-5 w-5 p-0 flex items-center justify-center text-xs bg-coral text-white">
-                                {item.badge}
-                              </Badge>
-                            )}
-                          </>
+                    <TooltipProvider>
+                      <Tooltip delayDuration={1000}>
+                        <TooltipTrigger asChild>
+                          <SidebarMenuButton 
+                            asChild 
+                            className={item.active ? "bg-muted text-primary font-medium" : "hover:bg-muted/50"}
+                          >
+                            <div 
+                              className="flex items-center cursor-pointer relative"
+                              onClick={() => setCurrentView(item.id)}
+                            >
+                              <item.icon className="h-4 w-4 mr-3" />
+                              {state === "expanded" && (
+                                <>
+                                  <span>{item.title}</span>
+                                  {item.badge && (
+                                    <Badge className="ml-auto h-5 w-5 p-0 flex items-center justify-center text-xs bg-coral text-white">
+                                      {item.badge}
+                                    </Badge>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                          </SidebarMenuButton>
+                        </TooltipTrigger>
+                        {state === "collapsed" && (
+                          <TooltipContent side="right">
+                            <p>{item.title}</p>
+                          </TooltipContent>
                         )}
-                      </div>
-                    </SidebarMenuButton>
+                      </Tooltip>
+                    </TooltipProvider>
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
@@ -475,30 +588,19 @@ const Dashboard = () => {
                       <h2 className="text-xl font-bold">For You</h2>
                       <div className="space-y-4">
                         {forYouData.map((item, idx) => (
-                          <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                          <Card key={idx} className="cursor-pointer hover:shadow-lg transition-shadow">
                             <div className="relative">
-                              <img 
-                                src={item.image} 
-                                alt={item.title}
-                                className="w-full h-32 object-cover rounded-t-lg"
-                              />
+                              <img src={item.image} alt={item.title} className="w-full h-40 object-cover rounded-t-lg" />
                               {item.type === "continuation" && (
-                                <Badge className="absolute top-2 right-2 bg-coral text-white">
+                                <div className="absolute top-2 right-2 bg-coral text-white px-2 py-1 rounded text-xs font-medium">
                                   {item.progress}% ready
-                                </Badge>
+                                </div>
                               )}
                             </div>
                             <CardContent className="p-4">
-                              <h3 className="font-medium mb-2">{item.title}</h3>
-                              {item.type === "continuation" && (
-                                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                  <Clock className="h-3 w-3" />
-                                  <span>{item.timeToComplete}</span>
-                                </div>
-                              )}
-                              {item.type === "new" && (
-                                <p className="text-xs text-muted-foreground">{item.reason}</p>
-                              )}
+                              <h3 className="font-semibold mb-2">{item.title}</h3>
+                              {item.reason && <p className="text-sm text-muted-foreground">{item.reason}</p>}
+                              {item.timeToComplete && <p className="text-sm text-coral">{item.timeToComplete}</p>}
                             </CardContent>
                           </Card>
                         ))}
@@ -509,20 +611,16 @@ const Dashboard = () => {
                     <div className="space-y-4">
                       <h2 className="text-xl font-bold">Jump Back In</h2>
                       <div className="space-y-4">
-                        {jumpBackInData.map((trip, idx) => (
-                          <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                        {jumpBackInData.map((item, idx) => (
+                          <Card key={idx} className="cursor-pointer hover:shadow-lg transition-shadow">
                             <div className="relative">
-                              <img 
-                                src={trip.image} 
-                                alt={trip.title}
-                                className="w-full h-32 object-cover rounded-t-lg"
-                              />
+                              <img src={item.image} alt={item.title} className="w-full h-40 object-cover rounded-t-lg" />
                             </div>
                             <CardContent className="p-4">
-                              <h3 className="font-medium mb-2">{trip.title}</h3>
-                              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                                <span>{trip.lastAccessed}</span>
-                                <span>{trip.days} days</span>
+                              <h3 className="font-semibold mb-2">{item.title}</h3>
+                              <div className="flex justify-between text-sm text-muted-foreground">
+                                <span>{item.lastAccessed}</span>
+                                <span>{item.days} days</span>
                               </div>
                             </CardContent>
                           </Card>
@@ -534,18 +632,14 @@ const Dashboard = () => {
                     <div className="space-y-4">
                       <h2 className="text-xl font-bold">Discover South East Asia</h2>
                       <div className="space-y-4">
-                        {discoverData.map((destination, idx) => (
-                          <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                        {discoverData.map((item, idx) => (
+                          <Card key={idx} className="cursor-pointer hover:shadow-lg transition-shadow">
                             <div className="relative">
-                              <img 
-                                src={destination.image} 
-                                alt={destination.name}
-                                className="w-full h-32 object-cover rounded-t-lg"
-                              />
+                              <img src={item.image} alt={item.name} className="w-full h-40 object-cover rounded-t-lg" />
                             </div>
                             <CardContent className="p-4">
-                              <h3 className="font-medium mb-2">{destination.name}</h3>
-                              <p className="text-xs text-muted-foreground">{destination.reason}</p>
+                              <h3 className="font-semibold mb-2">{item.name}</h3>
+                              <p className="text-sm text-muted-foreground">{item.reason}</p>
                             </CardContent>
                           </Card>
                         ))}
@@ -557,133 +651,92 @@ const Dashboard = () => {
 
               {currentView === "saved" && (
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Saved Content</h1>
+                  <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold mb-2">Your Saved Travel Dreams</h1>
+                    <p className="text-muted-foreground">All your travel inspiration in one place</p>
                   </div>
 
                   <Tabs defaultValue="destinations" className="w-full">
                     <TabsList className="grid w-full grid-cols-3">
                       <TabsTrigger value="destinations">Destinations</TabsTrigger>
-                      <TabsTrigger value="lists">Saved Lists</TabsTrigger>
+                      <TabsTrigger value="saved-lists">Saved Lists</TabsTrigger>
                       <TabsTrigger value="domestic">Domestic Escapes</TabsTrigger>
                     </TabsList>
                     
                     <TabsContent value="destinations" className="space-y-6">
                       <Card className="p-6">
                         <div className="flex items-center justify-between mb-4">
-                          <h2 className="text-xl font-bold">Thailand</h2>
-                          <Badge variant="secondary">25 saved dreams</Badge>
+                          <div>
+                            <h3 className="text-xl font-bold">Thailand</h3>
+                            <p className="text-muted-foreground">25 saved dreams</p>
+                          </div>
+                          <div className="flex -space-x-2">
+                            <div className="w-8 h-8 rounded-full bg-coral text-white flex items-center justify-center text-sm font-medium border-2 border-white">A</div>
+                            <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-medium border-2 border-white">S</div>
+                            <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm font-medium border-2 border-white">R</div>
+                          </div>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                           {[
                             { name: "Bangkok", count: 12, image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png" },
                             { name: "Phuket", count: 8, image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png" },
                             { name: "Chiang Mai", count: 5, image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png" }
-                          ].map((location, idx) => (
-                            <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                          ].map((location) => (
+                            <Card key={location.name} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
                               <div className="relative">
-                                <img 
-                                  src={location.image} 
-                                  alt={location.name}
-                                  className="w-full h-24 object-cover rounded-t-lg"
-                                />
-                                <Badge className="absolute top-2 right-2 bg-coral text-white">
-                                  {location.count}
-                                </Badge>
+                                <img src={location.image} alt={location.name} className="w-full h-32 object-cover" />
+                                <div className="absolute inset-0 bg-black/40 flex items-end p-4">
+                                  <div className="text-white">
+                                    <h4 className="font-semibold">{location.name}</h4>
+                                    <p className="text-sm opacity-90">{location.count} saves</p>
+                                  </div>
+                                </div>
                               </div>
-                              <CardContent className="p-3">
-                                <h3 className="font-medium text-sm">{location.name}</h3>
-                              </CardContent>
                             </Card>
                           ))}
                         </div>
-                        
-                        <div className="border-t pt-4">
-                          <h3 className="font-medium mb-3">Contributors</h3>
-                          <div className="flex items-center gap-4">
-                            {[
-                              { name: "You", count: 15 },
-                              { name: "Sarah", count: 8 },
-                              { name: "Raj", count: 2 }
-                            ].map((contributor, idx) => (
-                              <div key={idx} className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center text-xs font-medium">
-                                  {contributor.name[0]}
-                                </div>
-                                <div>
-                                  <p className="text-sm font-medium">{contributor.name}</p>
-                                  <p className="text-xs text-muted-foreground">{contributor.count} saves</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
                       </Card>
                     </TabsContent>
-                    
-                    <TabsContent value="lists" className="space-y-4">
+
+                    <TabsContent value="saved-lists" className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {[
                           { title: "Top Cocktail Bars in Bangalore", count: "12 venues", image: "/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png", tags: ["Nightlife", "Local"] },
-                          { title: "New Restaurants (Last Month)", count: "8 spots", image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png" },
-                          { title: "Best Ramen in Your City", count: "5 specialists", image: "/lovable-uploads/b7f95780-cac4-461d-a389-3a5cbc33c28d.png" }
+                          { title: "New Restaurants (Last Month)", count: "8 spots", image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png", tags: ["Food", "New"] },
+                          { title: "Best Ramen in Your City", count: "5 specialists", image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png", tags: ["Japanese", "Comfort"] }
                         ].map((list, idx) => (
-                          <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
-                            <div className="relative">
-                              <img 
-                                src={list.image} 
-                                alt={list.title}
-                                className="w-full h-32 object-cover rounded-t-lg"
-                              />
-                            </div>
+                          <Card key={idx} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+                            <img src={list.image} alt={list.title} className="w-full h-40 object-cover" />
                             <CardContent className="p-4">
-                              <h3 className="font-medium mb-2">{list.title}</h3>
-                              <p className="text-sm text-muted-foreground mb-2">{list.count}</p>
-                              {list.tags && (
-                                <div className="flex gap-1">
-                                  {list.tags.map((tag, tagIdx) => (
-                                    <Badge key={tagIdx} variant="secondary" className="text-xs">
-                                      {tag}
-                                    </Badge>
-                                  ))}
-                                </div>
-                              )}
+                              <h4 className="font-semibold mb-2">{list.title}</h4>
+                              <p className="text-sm text-muted-foreground mb-3">{list.count}</p>
+                              <div className="flex gap-1">
+                                {list.tags.map((tag) => (
+                                  <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                                ))}
+                              </div>
                             </CardContent>
                           </Card>
                         ))}
                       </div>
                     </TabsContent>
-                    
+
                     <TabsContent value="domestic" className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {[
                           { title: "Karnataka Monsoons", description: "Coffee estates & waterfalls", season: "June-Sept", image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png" },
                           { title: "Weekend Hikes near Bangalore", count: "15 trails", distance: "<100km", image: "/lovable-uploads/b7f95780-cac4-461d-a389-3a5cbc33c28d.png" },
-                          { title: "Luxury Beach Getaways", locations: ["Goa", "Gokarna"], image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png" }
+                          { title: "Luxury Beach Getaways", locations: "Goa • Gokarna", image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png" }
                         ].map((escape, idx) => (
-                          <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer">
-                            <div className="relative">
-                              <img 
-                                src={escape.image} 
-                                alt={escape.title}
-                                className="w-full h-32 object-cover rounded-t-lg"
-                              />
-                            </div>
+                          <Card key={idx} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+                            <img src={escape.image} alt={escape.title} className="w-full h-40 object-cover" />
                             <CardContent className="p-4">
-                              <h3 className="font-medium mb-2">{escape.title}</h3>
-                              {escape.description && <p className="text-sm text-muted-foreground mb-1">{escape.description}</p>}
-                              {escape.season && <p className="text-xs text-muted-foreground">Season: {escape.season}</p>}
-                              {escape.count && <p className="text-sm text-muted-foreground mb-1">{escape.count}</p>}
-                              {escape.distance && <p className="text-xs text-muted-foreground">Distance: {escape.distance}</p>}
-                              {escape.locations && (
-                                <div className="flex gap-1 mt-2">
-                                  {escape.locations.map((location, locIdx) => (
-                                    <Badge key={locIdx} variant="secondary" className="text-xs">
-                                      {location}
-                                    </Badge>
-                                  ))}
-                                </div>
-                              )}
+                              <h4 className="font-semibold mb-2">{escape.title}</h4>
+                              <p className="text-sm text-muted-foreground mb-2">{escape.description}</p>
+                              {escape.season && <Badge variant="outline" className="text-xs">{escape.season}</Badge>}
+                              {escape.count && <Badge variant="outline" className="text-xs">{escape.count}</Badge>}
+                              {escape.distance && <Badge variant="outline" className="text-xs">{escape.distance}</Badge>}
+                              {escape.locations && <Badge variant="outline" className="text-xs">{escape.locations}</Badge>}
                             </CardContent>
                           </Card>
                         ))}
@@ -695,236 +748,407 @@ const Dashboard = () => {
 
               {currentView === "trips" && (
                 <div className="space-y-6">
-                  {/* Header */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                    <div>
-                      <h1 className="text-2xl font-bold">Welcome back, Ashwin</h1>
-                      <p className="text-muted-foreground">We've organized your 25 saved dreams from Thailand into a complete itinerary</p>
-                    </div>
-                      <div className="flex items-center gap-3 flex-wrap">
-                        <Badge variant="secondary" className="text-coral font-medium">72% ready</Badge>
-                        <Badge variant="secondary">6 must-eats</Badge>
-                        <Badge variant="secondary">3 cafes</Badge>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => navigate('/preview-itinerary')}
-                          className="flex items-center gap-2"
-                        >
-                          <Eye className="h-4 w-4" />
-                          Full Itinerary
-                        </Button>
-                      </div>
-                    </div>
-
-                    {/* Filters */}
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                        {["All", "Bangkok", "Phuket", "Chiang Mai", "Krabi"].map((filter) => (
-                          <Button
-                            key={filter}
-                            variant={selectedFilter === filter ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setSelectedFilter(filter)}
-                            className="whitespace-nowrap"
-                          >
-                            {filter}
-                          </Button>
-                        ))}
-                      </div>
-                      
-                      <div className="hidden lg:flex items-center gap-4">
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm text-muted-foreground">When</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Users className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm text-muted-foreground">2 travelers</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <DollarSign className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm text-muted-foreground">Budget</span>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold mb-2">Your Thailand Adventure</h1>
+                    <p className="text-muted-foreground">We've organized your trip into a beautiful itinerary ready for your journey.</p>
                   </div>
 
-                  {/* Day-wise Itinerary Sections */}
-                  <div className="space-y-8">
-                    {getFilteredDaySections().map((section) => (
-                      <div 
-                        key={section.id} 
-                        className="space-y-4 cursor-pointer hover:shadow-lg transition-all duration-200 p-4 rounded-lg border border-transparent hover:border-border"
-                        onClick={() => handleDayCardClick(section.id)}
-                      >
-                        <div className="flex items-center justify-between">
-                          <h2 className="text-xl font-bold">{section.title}</h2>
-                          <Badge className={section.badge.color}>{section.badge.text}</Badge>
+                  {/* Interactive Filters */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <Dialog open={showDateModal} onOpenChange={setShowDateModal}>
+                      <DialogTrigger asChild>
+                        <div className="flex items-center gap-1 px-3 py-2 rounded-full bg-muted/50 text-sm cursor-pointer hover:bg-muted transition-colors">
+                          <Calendar className="h-4 w-4" />
+                          <span>{startDate && endDate ? `${format(startDate, "MMM d")} - ${format(endDate, "MMM d")}` : "When"}</span>
                         </div>
-                        <div className="lg:flex lg:gap-6">
-                          <div className="lg:w-1/3 mb-4 lg:mb-0">
-                            <img 
-                              src={section.image} 
-                              alt={section.title}
-                              className="w-full h-48 object-cover rounded-lg"
-                            />
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>Select Travel Dates</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-sm font-medium">Start Date</label>
+                              <CalendarComponent
+                                mode="single"
+                                selected={startDate}
+                                onSelect={setStartDate}
+                                className="rounded-md border"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium">End Date</label>
+                              <CalendarComponent
+                                mode="single"
+                                selected={endDate}
+                                onSelect={setEndDate}
+                                disabled={(date) => startDate ? date < startDate : false}
+                                className="rounded-md border"
+                              />
+                            </div>
                           </div>
-                          <div className="lg:w-2/3 space-y-3">
-                            <p className="text-muted-foreground">
-                              {section.description}
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                              {section.tags.map((tag, idx) => (
-                                <Badge key={idx} variant="secondary">{tag}</Badge>
+                          {startDate && endDate && (
+                            <div className="text-center p-4 bg-muted rounded-lg">
+                              <span className="text-lg font-semibold">{getDaysCount()} days</span>
+                            </div>
+                          )}
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+
+                    <Dialog open={showTravelersModal} onOpenChange={setShowTravelersModal}>
+                      <DialogTrigger asChild>
+                        <div className="flex items-center gap-1 px-3 py-2 rounded-full bg-muted/50 text-sm cursor-pointer hover:bg-muted transition-colors">
+                          <Users className="h-4 w-4" />
+                          <span>{adults + children} travelers</span>
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>Who's Traveling?</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-6">
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <span className="font-medium">Adults</span>
+                              <div className="flex items-center gap-3">
+                                <Button variant="outline" size="sm" onClick={() => setAdults(Math.max(1, adults - 1))}>
+                                  <Minus className="h-4 w-4" />
+                                </Button>
+                                <span className="w-8 text-center">{adults}</span>
+                                <Button variant="outline" size="sm" onClick={() => setAdults(adults + 1)}>
+                                  <Plus className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="font-medium">Children</span>
+                              <div className="flex items-center gap-3">
+                                <Button variant="outline" size="sm" onClick={() => setChildren(Math.max(0, children - 1))}>
+                                  <Minus className="h-4 w-4" />
+                                </Button>
+                                <span className="w-8 text-center">{children}</span>
+                                <Button variant="outline" size="sm" onClick={() => setChildren(children + 1)}>
+                                  <Plus className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">Travel Style</label>
+                            <div className="grid grid-cols-2 gap-2">
+                              {[
+                                { id: "couple", label: "Couple", icon: "💑" },
+                                { id: "friends", label: "Friends", icon: "👥" },
+                                { id: "solo", label: "Solo", icon: "🚶" },
+                                { id: "family", label: "Family", icon: "👨‍👩‍👧‍👦" }
+                              ].map((type) => (
+                                <button
+                                  key={type.id}
+                                  onClick={() => setSelectedTravelerType(type.id)}
+                                  className={cn(
+                                    "p-3 rounded-lg border text-sm font-medium transition-colors",
+                                    selectedTravelerType === type.id 
+                                      ? "bg-primary text-primary-foreground border-primary" 
+                                      : "bg-background hover:bg-muted"
+                                  )}
+                                >
+                                  <div className="text-lg mb-1">{type.icon}</div>
+                                  {type.label}
+                                </button>
                               ))}
                             </div>
-                            <div className="text-xs text-muted-foreground">
-                              Source: <a href="#" className="text-coral hover:underline">{section.source}</a>
-                            </div>
                           </div>
                         </div>
+                      </DialogContent>
+                    </Dialog>
+
+                    <Dialog open={showBudgetModal} onOpenChange={setShowBudgetModal}>
+                      <DialogTrigger asChild>
+                        <div className="flex items-center gap-1 px-3 py-2 rounded-full bg-muted/50 text-sm cursor-pointer hover:bg-muted transition-colors">
+                          <DollarSign className="h-4 w-4" />
+                          <span>Budget</span>
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>What's Your Budget?</DialogTitle>
+                        </DialogHeader>
+                        <div className="grid grid-cols-2 gap-3">
+                          {[
+                            { id: "budget", label: "Budget", icon: "💰", range: "$", desc: "Value conscious" },
+                            { id: "sensible", label: "Sensible", icon: "💸", range: "$$", desc: "Good balance" },
+                            { id: "upscale", label: "Upscale", icon: "✨", range: "$$$", desc: "Premium choices" },
+                            { id: "luxury", label: "Luxury", icon: "💎", range: "$$$$", desc: "No compromises" }
+                          ].map((budget) => (
+                            <button
+                              key={budget.id}
+                              onClick={() => setSelectedBudget(budget.id)}
+                              className={cn(
+                                "p-4 rounded-lg border text-left transition-colors",
+                                selectedBudget === budget.id 
+                                  ? "bg-primary text-primary-foreground border-primary" 
+                                  : "bg-background hover:bg-muted"
+                              )}
+                            >
+                              <div className="text-2xl mb-2">{budget.icon}</div>
+                              <div className="font-medium">{budget.label}</div>
+                              <div className="text-sm opacity-70">{budget.range}</div>
+                              <div className="text-xs opacity-60 mt-1">{budget.desc}</div>
+                            </button>
+                          ))}
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+
+                  {/* Progress Summary */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                      <Dialog open={showProgressModal} onOpenChange={setShowProgressModal}>
+                        <DialogTrigger asChild>
+                          <div className="text-2xl font-bold text-coral cursor-pointer hover:opacity-80 transition-opacity">72% ready</div>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-lg">
+                          <DialogHeader>
+                            <DialogTitle>Trip Progress</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-6">
+                            <div className="flex items-center justify-center">
+                              <div className="relative w-24 h-24">
+                                <svg className="w-24 h-24 transform -rotate-90">
+                                  <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-muted" />
+                                  <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" 
+                                    strokeDasharray={`${2 * Math.PI * 40}`} strokeDashoffset={`${2 * Math.PI * 40 * (1 - 0.72)}`} 
+                                    className="text-coral" />
+                                </svg>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <span className="text-2xl font-bold">72%</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="space-y-4">
+                              <div>
+                                <h4 className="font-medium text-green-700 mb-2 flex items-center gap-2">
+                                  <CheckCircle className="h-4 w-4" />
+                                  Completed
+                                </h4>
+                                {progressData.completed.map((item, idx) => (
+                                  <div key={idx} className="flex justify-between items-center py-2 border-b">
+                                    <span>{item.title}</span>
+                                    <span className="font-medium">{item.cost}</span>
+                                  </div>
+                                ))}
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-orange-700 mb-2 flex items-center gap-2">
+                                  <AlertCircle className="h-4 w-4" />
+                                  Pending
+                                </h4>
+                                {progressData.pending.map((item, idx) => (
+                                  <div key={idx} className="flex justify-between items-center py-2 border-b">
+                                    <div>
+                                      <span>{item.title}</span>
+                                      {item.completed && <span className="text-sm text-muted-foreground ml-2">({item.completed}/{item.total})</span>}
+                                    </div>
+                                    <span className="font-medium">{item.cost}</span>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="pt-4 border-t">
+                                <div className="flex justify-between items-center font-bold text-lg">
+                                  <span>Total Estimated</span>
+                                  <span className="text-coral">${progressData.totalCost}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                      <div className="flex gap-2">
+                        <Dialog open={showMustEatsModal} onOpenChange={setShowMustEatsModal}>
+                          <DialogTrigger asChild>
+                            <Badge variant="secondary" className="bg-orange-100 text-orange-700 cursor-pointer hover:bg-orange-200 transition-colors">6 must-eats</Badge>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-2xl">
+                            <DialogHeader>
+                              <DialogTitle>Must-Eat Places</DialogTitle>
+                            </DialogHeader>
+                            <div className="grid gap-4">
+                              {mustEatsData.map((place, idx) => (
+                                <div key={idx} className="flex gap-4 p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+                                  <img src={place.image} alt={place.name} className="w-20 h-20 object-cover rounded-lg" />
+                                  <div className="flex-1">
+                                    <h4 className="font-semibold">{place.name}</h4>
+                                    <p className="text-sm text-muted-foreground">{place.type}</p>
+                                    <div className="flex items-center gap-2 mt-2">
+                                      <MapPin className="h-3 w-3" />
+                                      <span className="text-sm">{place.location}</span>
+                                    </div>
+                                    <div className="text-xs text-muted-foreground mt-1">{place.source}</div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                        <Dialog open={showExperiencesModal} onOpenChange={setShowExperiencesModal}>
+                          <DialogTrigger asChild>
+                            <Badge variant="secondary" className="bg-blue-100 text-blue-700 cursor-pointer hover:bg-blue-200 transition-colors">3 experiences</Badge>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-2xl">
+                            <DialogHeader>
+                              <DialogTitle>Off-Beat Experiences</DialogTitle>
+                            </DialogHeader>
+                            <div className="grid gap-4">
+                              {experiencesData.map((exp, idx) => (
+                                <div key={idx} className="flex gap-4 p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+                                  <img src={exp.image} alt={exp.name} className="w-20 h-20 object-cover rounded-lg" />
+                                  <div className="flex-1">
+                                    <h4 className="font-semibold">{exp.name}</h4>
+                                    <p className="text-sm text-muted-foreground">{exp.type}</p>
+                                    <div className="flex items-center gap-2 mt-2">
+                                      <MapPin className="h-3 w-3" />
+                                      <span className="text-sm">{exp.location}</span>
+                                      <Badge variant="outline" className="text-xs">{exp.uniqueness}</Badge>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </DialogContent>
+                        </Dialog>
                       </div>
+                    </div>
+                    <Button 
+                      onClick={() => navigate('/preview-itinerary')}
+                      className="bg-coral hover:bg-coral/90 text-white"
+                      size="sm"
+                    >
+                      <Eye className="h-4 w-4 mr-2" />
+                      Full Itinerary
+                    </Button>
+                  </div>
+
+                  {/* Location Filter Pills */}
+                  <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+                    {["All", "Bangkok", "Phuket", "Chiang Mai", "Krabi"].map((filter) => (
+                      <Button
+                        key={filter}
+                        variant={selectedFilter === filter ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setSelectedFilter(filter)}
+                        className={cn(
+                          "whitespace-nowrap",
+                          selectedFilter === filter && "bg-coral hover:bg-coral/90 text-white"
+                        )}
+                      >
+                        {filter}
+                      </Button>
+                    ))}
+                  </div>
+
+                  {/* Itinerary Day Sections */}
+                  <div className="space-y-6">
+                    {getFilteredDaySections().map((daySection) => (
+                      <Card 
+                        key={daySection.id} 
+                        className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                        onClick={() => handleDayCardClick(daySection.id)}
+                      >
+                        <div className="relative">
+                          <img 
+                            src={daySection.image} 
+                            alt={daySection.title}
+                            className="w-full h-48 md:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                          <div className="absolute top-4 left-4">
+                            <Badge className={`${daySection.badge.color} border text-xs font-medium`}>
+                              {daySection.badge.text}
+                            </Badge>
+                          </div>
+                          <div className="absolute bottom-4 left-4 right-4 text-white">
+                            <h3 className="text-xl md:text-2xl font-bold mb-2">{daySection.title}</h3>
+                            <p className="text-sm opacity-90 mb-3 line-clamp-2">{daySection.description}</p>
+                            <div className="flex flex-wrap gap-1 mb-2">
+                              {daySection.tags.map((tag, tagIdx) => (
+                                <Badge key={tagIdx} variant="secondary" className="text-xs bg-white/20 text-white border-white/30">
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
+                            <p className="text-xs opacity-75">{daySection.source}</p>
+                          </div>
+                        </div>
+                      </Card>
                     ))}
                   </div>
                 </div>
               )}
 
               {currentView === "chat" && (
-                <div className="space-y-6 max-w-4xl mx-auto">
-                  <div className="text-center space-y-4">
-                    <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto">
-                      <div className="w-16 h-16 bg-gradient-to-br from-coral to-orange-300 rounded-full flex items-center justify-center">
-                        🌍
-                      </div>
-                    </div>
-                    <h1 className="text-3xl font-bold">Where to today, Ashwin?</h1>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
-                      Hey there, I'm here to assist you in planning your experience. Ask me anything travel related.
-                    </p>
+                <div className="space-y-6">
+                  <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold mb-2">Chat with Verso AI</h1>
+                    <p className="text-muted-foreground">Ask anything about your travel plans</p>
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="bg-muted/50 rounded-lg p-4">
-                      <p className="text-sm text-muted-foreground mb-3">Quick suggestions:</p>
-                      <div className="flex flex-wrap gap-2">
-                        <Button variant="outline" size="sm" className="flex items-center gap-2">
-                          🌿 <span>Add nature day</span>
+                  {/* Chat Interface */}
+                  <Card className="h-96">
+                    <CardContent className="p-6 h-full flex flex-col">
+                      <div className="flex-1 space-y-4">
+                        <div className="bg-muted p-4 rounded-lg">
+                          <p className="text-sm">Let me know if you'd like to adjust the pace or add special interests!</p>
+                          <div className="flex gap-2 mt-3">
+                            <Badge variant="outline" className="cursor-pointer hover:bg-muted">🌿 Add nature day</Badge>
+                            <Badge variant="outline" className="cursor-pointer hover:bg-muted">🍜 More food experiences</Badge>
+                            <Badge variant="outline" className="cursor-pointer hover:bg-muted">⚡ Faster pace</Badge>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 pt-4 border-t">
+                        <Input placeholder="Ask anything..." className="flex-1" />
+                        <Button size="sm">
+                          <Mic className="h-4 w-4" />
                         </Button>
-                        <Button variant="outline" size="sm" className="flex items-center gap-2">
-                          🍜 <span>More food experiences</span>
-                        </Button>
-                        <Button variant="outline" size="sm" className="flex items-center gap-2">
-                          ⚡ <span>Faster pace</span>
+                        <Button size="sm" className="bg-coral hover:bg-coral/90">
+                          Send
                         </Button>
                       </div>
-                    </div>
-                    
-                    <div className="relative">
-                      <Input 
-                        placeholder="Ask anything..." 
-                        className="pr-24 rounded-full border-2 bg-background h-12"
-                      />
-                      <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-muted">
-                          <Mic className="h-4 w-4 text-coral" />
-                        </Button>
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-muted">
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-muted">
-                          <MessageCircle className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                    
-                    <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1">
-                      <span className="w-4 h-4 rounded-full bg-muted flex items-center justify-center">⚠</span>
-                      Verso can make mistakes. Check important info.
-                    </p>
-                  </div>
+                      <p className="text-xs text-muted-foreground mt-2">⏰ AI may make mistakes - verify important details</p>
+                    </CardContent>
+                  </Card>
                 </div>
               )}
             </div>
           </div>
         </main>
 
-        {/* Sticky Chat Interface - Always Visible at Bottom */}
-        <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border z-40 lg:block hidden">
-          <div className="p-4 space-y-3">
-            <div className="bg-muted/50 rounded-lg p-3">
-              <p className="text-sm text-muted-foreground">Let me know if you'd like to adjust the pace or add special interests!</p>
-            </div>
-            
-            <div className="space-y-2">
-              <div className="relative">
-                <Input 
-                  placeholder="Ask anything..." 
-                  className="pr-24 rounded-full border-2 bg-background"
-                />
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-muted">
-                    <Mic className="h-4 w-4 text-coral" />
-                  </Button>
-                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-muted">
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-muted">
-                    <MessageCircle className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-              <p className="text-xs text-muted-foreground flex items-center gap-1">
-                <span className="w-4 h-4 rounded-full bg-muted flex items-center justify-center">⚠</span>
-                Verso can make mistakes. Check important info.
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* Mobile Bottom Navigation */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border z-10">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t">
           <div className="grid grid-cols-4 gap-1 p-2">
-            <Button 
-              variant={currentView === "home" ? "default" : "ghost"} 
-              size="sm" 
-              className="flex flex-col gap-1 h-auto py-2"
-              onClick={() => setCurrentView("home")}
-            >
-              <Home className="h-4 w-4" />
-              <span className="text-xs">Home</span>
-            </Button>
-            <Button 
-              variant={currentView === "saved" ? "default" : "ghost"} 
-              size="sm" 
-              className="flex flex-col gap-1 h-auto py-2"
-              onClick={() => setCurrentView("saved")}
-            >
-              <Heart className="h-4 w-4" />
-              <span className="text-xs">Saved</span>
-            </Button>
-            <Button 
-              variant={currentView === "trips" ? "default" : "ghost"} 
-              size="sm" 
-              className="flex flex-col gap-1 h-auto py-2"
-              onClick={() => setCurrentView("trips")}
-            >
-              <Luggage className="h-4 w-4" />
-              <span className="text-xs">Trips</span>
-            </Button>
-            <Button 
-              variant={currentView === "chat" ? "default" : "ghost"} 
-              size="sm" 
-              className="flex flex-col gap-1 h-auto py-2 relative"
-              onClick={() => setCurrentView("chat")}
-            >
-              <MessageCircle className="h-4 w-4" />
-              <span className="text-xs">Chat</span>
-              <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs bg-coral text-white">
-                3
-              </Badge>
-            </Button>
+            {[
+              { title: "Home", icon: Home, id: "home" },
+              { title: "Saved", icon: Heart, id: "saved" },
+              { title: "Trips", icon: Luggage, id: "trips" },
+              { title: "Chat", icon: MessageCircle, id: "chat" }
+            ].map((item) => (
+              <button
+                key={item.title}
+                onClick={() => setCurrentView(item.id)}
+                className={cn(
+                  "flex flex-col items-center gap-1 p-3 rounded-lg transition-colors",
+                  currentView === item.id 
+                    ? "bg-coral text-white" 
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                )}
+              >
+                <item.icon className="h-5 w-5" />
+                <span className="text-xs font-medium">{item.title}</span>
+              </button>
+            ))}
           </div>
         </div>
       </div>
