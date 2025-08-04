@@ -47,10 +47,10 @@ const ItineraryDashboard = () => {
     );
   };
 
-  // Sample itinerary data
+  // Sample itinerary data matching reference images
   const tripData = {
-    title: "Bangkok Street Food Hop",
-    duration: "14 days • June 12-26, 2024",
+    title: "14-Day Thailand Adventure",
+    duration: "Thailand • 14 days • 2 travelers • Budget",
     days: [
       {
         number: 1,
@@ -58,40 +58,37 @@ const ItineraryDashboard = () => {
         date: "June 12",
         activities: [
           {
-            time: "7:00 AM - 10:00 AM",
+            time: "7:00 AM India Time - 10:00 AM India Time",
             title: "Kempegowda Airport",
-            subtitle: "India Time",
             type: "travel",
-            icon: "🛫",
-            details: "Flight AI-203",
-            image: "/lovable-uploads/5cb040b5-08b5-4975-9724-d8d3e9d7fcea.png"
+            icon: "✈️",
+            details: "Details",
+            distance: "1,548 mi",
+            image: "/lovable-uploads/94097383-44d1-461e-b0fd-9492ff45dbf5.png"
           },
           {
-            time: "12:00 PM - 12:30 PM", 
-            title: "Suvarnabhumbi International Airport",
-            subtitle: "Thailand Time",
+            time: "12:00 PM Thailand Time - 12:30 PM Thailand Time", 
+            title: "Suvarnabhumi International Airport",
             type: "travel",
-            icon: "🛬",
-            details: "Taxi booked",
-            image: "/lovable-uploads/5cb040b5-08b5-4975-9724-d8d3e9d7fcea.png"
+            icon: "✈️",
+            details: "Details",
+            distance: "15.44 mi",
+            image: "/lovable-uploads/086a8821-7848-454e-b4ee-57f6a0cd77fe.png"
           },
           {
-            time: "1:00 PM",
+            time: "Check-in 1:00 PM Thailand Time (3 nights)",
             title: "Eastin Grand Hotel Sathorn",
-            subtitle: "Check-in • 3 nights",
             type: "accommodation",
-            icon: "🛏️",
-            details: "$142/night",
+            icon: "🏨",
             bookable: true,
-            image: "/lovable-uploads/31de207c-20bf-4c4b-998d-e824356aa265.png"
+            image: "/lovable-uploads/ad5778de-929b-4f91-bd99-11c97d9b6c4c.png"
           },
           {
-            time: "7:00 PM - 8:30 PM",
+            time: "7:00 PM Thailand Time - 8:30 PM Thailand Time",
             title: "Bang Rak Street Food Stalls",
-            subtitle: "Welcome dinner",
             type: "food",
-            icon: "🍜",
-            image: "/lovable-uploads/5cb040b5-08b5-4975-9724-d8d3e9d7fcea.png"
+            icon: "🍽️",
+            image: "/lovable-uploads/821fb983-af77-4d9e-b33e-effe2be267b1.png"
           }
         ]
       },
@@ -101,31 +98,128 @@ const ItineraryDashboard = () => {
         date: "June 13",
         activities: [
           {
-            time: "9:00 AM",
-            title: "Wat Arun Temple",
-            subtitle: "Temple of Dawn",
-            type: "sightseeing",
+            time: "Staying at Eastin Grand Hotel Sathorn",
+            title: "Hotel accommodation",
+            type: "accommodation",
+            distance: "2.65 mi",
+            isStaying: true
+          },
+          {
+            time: "9:00 AM - 10:30 AM",
+            title: "Wat Pho",
+            type: "temple",
             icon: "🏛️",
-            details: "2 hours visit",
-            image: "/lovable-uploads/9ad3c331-19eb-4ce1-9065-2a902eda5bdc.png"
+            link: true,
+            distance: "0.4 mi",
+            image: "/lovable-uploads/7dc9ce16-babb-48a2-8bc7-5942938f1fe9.png"
           },
           {
-            time: "12:00 PM",
-            title: "Chatuchak Weekend Market",
-            subtitle: "Street food exploration",
+            time: "10:45 AM - 12:00 PM",
+            title: "Wat Arun Ratchawararam Ratchawaramahawihan",
+            type: "temple",
+            icon: "🏛️", 
+            link: true,
+            distance: "0.46 mi",
+            image: "/lovable-uploads/0d6cd62c-74d8-4528-b26b-30d2d3333931.png"
+          },
+          {
+            time: "1:00 PM - 2:30 PM",
+            title: "Grand Palace",
+            type: "attraction",
+            icon: "🏰",
+            link: true,
+            distance: "0.14 mi",
+            image: "/lovable-uploads/f11c41d9-eac8-4c73-99cc-c19d8191192f.png"
+          },
+          {
+            time: "2:30 PM - 3:30 PM",
+            title: "Temple of the Emerald Buddha (Wat Phra Kaew)",
+            type: "temple",
+            icon: "🏛️",
+            directions: true,
+            distance: "0.42 mi",
+            image: "/lovable-uploads/f4e9e9ef-3c50-4045-a224-d3f3f8738f01.png"
+          },
+          {
+            time: "3:30 PM - 4:30 PM", 
+            title: "THE SIXTH 6th",
             type: "food",
-            icon: "🍜",
-            details: "Saved from IG",
-            image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png"
+            icon: "🍽️",
+            details: "Details",
+            distance: "0.65 mi",
+            image: "/lovable-uploads/821fb983-af77-4d9e-b33e-effe2be267b1.png"
           },
           {
-            time: "6:00 PM",
-            title: "Sky Bar Rooftop",
-            subtitle: "Sunset cocktails",
-            type: "experience",
-            icon: "🍸",
-            details: "Saved from TikTok",
-            image: "/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png"
+            time: "5:30 PM - 7:00 PM",
+            title: "Rattanakosin Island",
+            type: "attraction",
+            icon: "📍",
+            details: "Details",
+            image: "/lovable-uploads/0d6cd62c-74d8-4528-b26b-30d2d3333931.png"
+          }
+        ]
+      },
+      {
+        number: 3,
+        title: "🛍️ Markets & Modern Life",
+        date: "June 14",
+        activities: [
+          {
+            time: "Staying at Eastin Grand Hotel Sathorn",
+            title: "Hotel accommodation",
+            type: "accommodation",
+            distance: "5.9 mi",
+            isStaying: true
+          },
+          {
+            time: "9:00 AM - 11:00 AM",
+            title: "Chatuchak Market",
+            type: "market",
+            icon: "🛒",
+            link: true,
+            distance: "3.79 mi",
+            image: "/lovable-uploads/f11c41d9-eac8-4c73-99cc-c19d8191192f.png"
+          },
+          {
+            time: "12:00 PM - 2:00 PM",
+            title: "Jim Thompson House Museum",
+            type: "museum",
+            icon: "🏛️",
+            link: true,
+            distance: "0.49 mi", 
+            image: "/lovable-uploads/f4e9e9ef-3c50-4045-a224-d3f3f8738f01.png"
+          },
+          {
+            time: "2:30 PM - 4:30 PM",
+            title: "Siam Paragon",
+            type: "shopping",
+            icon: "🏬",
+            directions: true,
+            distance: "1.26 mi",
+            image: "/lovable-uploads/ad5778de-929b-4f91-bd99-11c97d9b6c4c.png"
+          },
+          {
+            time: "6:30 PM - 8:00 PM",
+            title: "Somtum Der",
+            type: "food",
+            icon: "🍽️",
+            details: "Details",
+            image: "/lovable-uploads/821fb983-af77-4d9e-b33e-effe2be267b1.png"
+          }
+        ]
+      },
+      {
+        number: 4,
+        title: "🏔️ To Chiang Mai",
+        date: "June 15",
+        activities: [
+          {
+            time: "Check-out 7:00 AM",
+            title: "Eastin Grand Hotel Sathorn",
+            type: "accommodation",
+            icon: "🏨",
+            bookable: true,
+            image: "/lovable-uploads/ad5778de-929b-4f91-bd99-11c97d9b6c4c.png"
           }
         ]
       }
@@ -133,61 +227,83 @@ const ItineraryDashboard = () => {
   };
 
   const ActivityCard = ({ activity, isLast = false }: { activity: any, isLast?: boolean }) => {
-    const typeColors = {
-      travel: "bg-blue-50 border-blue-200",
-      accommodation: "bg-green-50 border-green-200", 
-      food: "bg-orange-50 border-orange-200",
-      sightseeing: "bg-purple-50 border-purple-200",
-      experience: "bg-pink-50 border-pink-200"
-    };
+    if (activity.isStaying) {
+      return (
+        <div className="relative">
+          <div className="flex gap-4 p-3 bg-muted/30 rounded-lg border border-dashed border-muted-foreground/30">
+            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+              <Hotel className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-medium text-muted-foreground">{activity.time}</h4>
+              {activity.distance && (
+                <p className="text-xs text-muted-foreground mt-1">{activity.distance}</p>
+              )}
+            </div>
+          </div>
+          {!isLast && (
+            <div className="flex justify-center my-3">
+              <div className="w-px h-4 bg-border"></div>
+            </div>
+          )}
+        </div>
+      );
+    }
 
     return (
       <div className="relative">
-        <div className={`flex gap-4 p-4 rounded-lg border ${typeColors[activity.type as keyof typeof typeColors] || 'bg-gray-50 border-gray-200'} hover:shadow-md transition-all duration-200`}>
+        <div className="flex gap-4 p-3 bg-background rounded-lg border border-border hover:shadow-sm transition-all duration-200">
           {activity.image && (
             <img 
               src={activity.image} 
               alt={activity.title}
-              className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+              className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
             />
           )}
           
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between">
-              <div>
+              <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-lg">{activity.icon}</span>
-                  <h4 className="font-medium text-foreground">{activity.title}</h4>
+                  {activity.icon && <span className="text-sm">{activity.icon}</span>}
+                  <h4 className="font-medium text-foreground text-sm">{activity.title}</h4>
                 </div>
-                <p className="text-sm text-muted-foreground mb-2">{activity.subtitle}</p>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1">
                   <Clock className="h-3 w-3" />
                   <span>{activity.time}</span>
                 </div>
+                {activity.distance && (
+                  <p className="text-xs text-muted-foreground">{activity.distance}</p>
+                )}
               </div>
               
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 ml-4">
+                {activity.link && (
+                  <Button size="sm" variant="outline" className="text-xs h-7 px-3">
+                    Link ↗
+                  </Button>
+                )}
                 {activity.details && (
-                  <Badge variant="secondary" className="text-xs">
-                    {activity.details}
-                  </Badge>
+                  <Button size="sm" variant="outline" className="text-xs h-7 px-3">
+                    Details
+                  </Button>
+                )}
+                {activity.directions && (
+                  <span className="text-xs text-muted-foreground">Directions ↗</span>
                 )}
                 {activity.bookable && (
-                  <Button size="sm" className="bg-coral hover:bg-coral/90 text-white">
+                  <Button size="sm" className="bg-black hover:bg-black/90 text-white text-xs h-7 px-4">
                     Book
                   </Button>
                 )}
-                <Button variant="ghost" size="sm">
-                  Details
-                </Button>
               </div>
             </div>
           </div>
         </div>
         
         {!isLast && (
-          <div className="flex justify-center my-2">
-            <div className="w-px h-6 bg-border"></div>
+          <div className="flex justify-center my-3">
+            <div className="w-px h-4 bg-border"></div>
           </div>
         )}
       </div>

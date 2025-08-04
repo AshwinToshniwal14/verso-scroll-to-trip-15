@@ -156,9 +156,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:block fixed left-0 top-0 bottom-0 w-60 bg-card border-r border-border">
+    <div className="min-h-screen bg-background flex">
+      {/* Desktop Sidebar - Hidden by default */}
+      <div className="hidden lg:block fixed left-0 top-0 bottom-0 w-60 bg-card border-r border-border transform -translate-x-full transition-transform duration-300 hover:translate-x-0 z-40">
         <div className="p-6">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-xl font-bold">Verso</h1>
@@ -228,8 +228,8 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="lg:ml-60">
-        <div className="lg:grid lg:grid-cols-3 lg:gap-6 p-4 lg:p-6">
+      <div className="flex-1 overflow-y-auto">
+        <div className="lg:grid lg:grid-cols-3 lg:gap-6 p-4 lg:p-6 pb-20 lg:pb-6">
           {/* Main Content Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Header */}
@@ -395,25 +395,40 @@ const Dashboard = () => {
         </Badge>
       </Button>
 
-      {/* Chat Modal */}
+      {/* Chat Interface - Bottom Style */}
       {chatOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 lg:bg-transparent lg:pointer-events-none">
-          <div className="lg:fixed lg:bottom-20 lg:right-6 lg:w-80 lg:h-96 bg-card lg:rounded-lg lg:shadow-xl lg:pointer-events-auto h-full w-full lg:h-auto">
+        <div className="fixed inset-0 bg-black/50 z-50">
+          <div className="fixed bottom-0 left-0 right-0 bg-card rounded-t-2xl shadow-xl max-h-[70vh] flex flex-col">
             <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="font-medium">Trip Assistant</h3>
+              <h3 className="font-medium">Chat</h3>
               <Button variant="ghost" size="sm" onClick={() => setChatOpen(false)}>×</Button>
             </div>
-            <div className="p-4 space-y-4 h-64 overflow-y-auto">
+            
+            <div className="flex-1 p-4 space-y-4 overflow-y-auto">
               <div className="bg-muted/50 rounded-lg p-3">
-                <p className="text-sm">I found 3 boutique hotels near your saved cafes in Bangkok. Want to see them?</p>
-                <div className="flex gap-2 mt-2">
-                  <Button size="sm" variant="outline" className="text-xs">Show me</Button>
-                  <Button size="sm" variant="outline" className="text-xs">Add to trip</Button>
-                </div>
+                <p className="text-sm text-muted-foreground">Let me know if you'd like to adjust the pace or add special interests!</p>
               </div>
             </div>
-            <div className="p-4 border-t">
-              <Input placeholder="Ask anything travel related..." />
+            
+            <div className="p-4 border-t bg-muted/20">
+              <div className="relative">
+                <Input 
+                  placeholder="Ask anything..." 
+                  className="pr-20 rounded-full border-2 bg-background"
+                />
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full">
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0 rounded-full">
+                    <MessageCircle className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                <span className="w-4 h-4 rounded-full bg-muted flex items-center justify-center">⚠</span>
+                Mindtrip can make mistakes. Check important info.
+              </p>
             </div>
           </div>
         </div>
