@@ -66,7 +66,7 @@ const Dashboard = () => {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
-  const [currentView, setCurrentView] = useState("home"); // home, saved, trips, chat
+  const [currentView, setCurrentView] = useState("trips"); // home, saved, trips, chat
   
   // Modal states
   const [showDateModal, setShowDateModal] = useState(false);
@@ -767,27 +767,27 @@ const Dashboard = () => {
                           <DialogTitle>Select Travel Dates</DialogTitle>
                         </DialogHeader>
                         <div className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="text-sm font-medium">Start Date</label>
-                              <CalendarComponent
-                                mode="single"
-                                selected={startDate}
-                                onSelect={setStartDate}
-                                className="rounded-md border"
-                              />
-                            </div>
-                            <div>
-                              <label className="text-sm font-medium">End Date</label>
-                              <CalendarComponent
-                                mode="single"
-                                selected={endDate}
-                                onSelect={setEndDate}
-                                disabled={(date) => startDate ? date < startDate : false}
-                                className="rounded-md border"
-                              />
-                            </div>
-                          </div>
+                           <div className="space-y-4">
+                             <div>
+                               <label className="text-sm font-medium mb-2 block">Start Date</label>
+                               <CalendarComponent
+                                 mode="single"
+                                 selected={startDate}
+                                 onSelect={setStartDate}
+                                 className="rounded-md border w-full"
+                               />
+                             </div>
+                             <div>
+                               <label className="text-sm font-medium mb-2 block">End Date</label>
+                               <CalendarComponent
+                                 mode="single"
+                                 selected={endDate}
+                                 onSelect={setEndDate}
+                                 disabled={(date) => startDate ? date < startDate : false}
+                                 className="rounded-md border w-full"
+                               />
+                             </div>
+                           </div>
                           {startDate && endDate && (
                             <div className="text-center p-4 bg-muted rounded-lg">
                               <span className="text-lg font-semibold">{getDaysCount()} days</span>
@@ -1031,60 +1031,64 @@ const Dashboard = () => {
                     </Button>
                   </div>
 
-                  {/* Location Filter Pills */}
-                  <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-                    {["All", "Bangkok", "Phuket", "Chiang Mai", "Krabi"].map((filter) => (
-                      <Button
-                        key={filter}
-                        variant={selectedFilter === filter ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setSelectedFilter(filter)}
-                        className={cn(
-                          "whitespace-nowrap",
-                          selectedFilter === filter && "bg-coral hover:bg-coral/90 text-white"
-                        )}
-                      >
-                        {filter}
-                      </Button>
-                    ))}
-                  </div>
+                   {/* Location Filter Pills */}
+                   <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+                     {["All", "Bangkok", "Phuket", "Chiang Mai", "Krabi"].map((filter) => (
+                       <Button
+                         key={filter}
+                         variant={selectedFilter === filter ? "default" : "outline"}
+                         size="sm"
+                         onClick={() => setSelectedFilter(filter)}
+                         className={cn(
+                           "whitespace-nowrap",
+                           selectedFilter === filter && "bg-coral hover:bg-coral/90 text-white"
+                         )}
+                       >
+                         {filter}
+                       </Button>
+                     ))}
+                   </div>
 
-                  {/* Itinerary Day Sections */}
-                  <div className="space-y-6">
-                    {getFilteredDaySections().map((daySection) => (
-                      <Card 
-                        key={daySection.id} 
-                        className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group"
-                        onClick={() => handleDayCardClick(daySection.id)}
-                      >
-                        <div className="relative">
-                          <img 
-                            src={daySection.image} 
-                            alt={daySection.title}
-                            className="w-full h-48 md:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                          <div className="absolute top-4 left-4">
-                            <Badge className={`${daySection.badge.color} border text-xs font-medium`}>
-                              {daySection.badge.text}
-                            </Badge>
-                          </div>
-                          <div className="absolute bottom-4 left-4 right-4 text-white">
-                            <h3 className="text-xl md:text-2xl font-bold mb-2">{daySection.title}</h3>
-                            <p className="text-sm opacity-90 mb-3 line-clamp-2">{daySection.description}</p>
-                            <div className="flex flex-wrap gap-1 mb-2">
-                              {daySection.tags.map((tag, tagIdx) => (
-                                <Badge key={tagIdx} variant="secondary" className="text-xs bg-white/20 text-white border-white/30">
-                                  {tag}
-                                </Badge>
-                              ))}
-                            </div>
-                            <p className="text-xs opacity-75">{daySection.source}</p>
-                          </div>
-                        </div>
-                      </Card>
-                    ))}
-                  </div>
+                   {/* Itinerary Day Sections */}
+                   <div className="space-y-6">
+                     {getFilteredDaySections().map((daySection) => (
+                       <Card 
+                         key={daySection.id} 
+                         className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                         onClick={() => handleDayCardClick(daySection.id)}
+                       >
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+                           <div className="relative">
+                             <img 
+                               src={daySection.image} 
+                               alt={daySection.title}
+                               className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                             />
+                             <div className="absolute inset-0 bg-black/20" />
+                             <div className="absolute top-4 left-4">
+                               <Badge className={`${daySection.badge.color} border text-xs font-medium`}>
+                                 {daySection.badge.text}
+                               </Badge>
+                             </div>
+                           </div>
+                           <div className="p-6 flex flex-col justify-between bg-white">
+                             <div>
+                               <h3 className="text-xl md:text-2xl font-bold mb-3">{daySection.title}</h3>
+                               <p className="text-sm text-muted-foreground mb-4">{daySection.description}</p>
+                               <div className="flex flex-wrap gap-1 mb-4">
+                                 {daySection.tags.map((tag, tagIdx) => (
+                                   <Badge key={tagIdx} variant="outline" className="text-xs">
+                                     {tag}
+                                   </Badge>
+                                 ))}
+                               </div>
+                             </div>
+                             <p className="text-xs text-muted-foreground">{daySection.source}</p>
+                           </div>
+                         </div>
+                       </Card>
+                     ))}
+                   </div>
                 </div>
               )}
 
