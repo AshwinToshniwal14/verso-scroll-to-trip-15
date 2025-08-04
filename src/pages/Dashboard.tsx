@@ -117,7 +117,7 @@ const Dashboard = () => {
   };
 
   const handleDayCardClick = (sectionId: string) => {
-    navigate('/itinerary-dashboard');
+    navigate('/preview-itinerary');
   };
 
   // Sample data
@@ -406,18 +406,18 @@ const Dashboard = () => {
                 {/* Header */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <div>
-                      <h1 className="text-2xl font-bold">Welcome back, Ashwin</h1>
-                      <p className="text-muted-foreground">25 saved dreams from Thailand</p>
-                    </div>
-                    <div className="flex items-center gap-3">
+                  <div>
+                    <h1 className="text-2xl font-bold">Welcome back, Ashwin</h1>
+                    <p className="text-muted-foreground">We've organized your 25 saved dreams from Thailand into a complete itinerary</p>
+                  </div>
+                    <div className="flex items-center gap-3 flex-wrap">
                       <Badge variant="secondary" className="text-coral font-medium">72% ready</Badge>
                       <Badge variant="secondary">6 must-eats</Badge>
                       <Badge variant="secondary">3 cafes</Badge>
                       <Button 
                         variant="outline" 
                         size="sm"
-                        onClick={() => navigate('/itinerary-dashboard')}
+                        onClick={() => navigate('/preview-itinerary')}
                         className="flex items-center gap-2"
                       >
                         <Eye className="h-4 w-4" />
