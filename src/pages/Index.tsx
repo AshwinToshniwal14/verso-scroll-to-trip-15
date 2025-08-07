@@ -6,6 +6,8 @@ import { TripsBecomeFlywheel } from "@/components/TripsBecomeFlywheel";
 import { EmbeddedWaitlist } from "@/components/EmbeddedWaitlist";
 import { StickyCTA } from "@/components/StickyCTA";
 import { Footer } from "@/components/Footer";
+import CTASample from "@/components/CTASample";
+import ChatAssistant from "@/components/ChatAssistant";
 import { useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,6 +40,9 @@ const Index = () => {
         {/* Social Proof + Final CTA */}
         <SocialProofFinal />
         
+        {/* CTA Sample Trip */}
+        <CTASample />
+        
         {/* Trips Become Guides Flywheel */}
         <TripsBecomeFlywheel />
         
@@ -46,6 +51,9 @@ const Index = () => {
         
         {/* Sticky CTA */}
         <StickyCTA />
+        
+        {/* Chat Assistant */}
+        <ChatAssistant />
         
         {/* Minimal Footer */}
         <Footer />

@@ -6,10 +6,11 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const PreviewItinerary = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState("itinerary");
   const [expandedDays, setExpandedDays] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   const [rightPanelContent, setRightPanelContent] = useState<'map' | 'details' | 'booking'>('map');

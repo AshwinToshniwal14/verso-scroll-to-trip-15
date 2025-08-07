@@ -157,7 +157,7 @@ const Dashboard = () => {
   };
 
   const handleDayCardClick = (sectionId: string) => {
-    navigate('/preview-itinerary');
+    navigate(`/preview-itinerary?tripId=thailand-2024-${sectionId}`);
   };
 
   // Sample data for modals
@@ -231,18 +231,22 @@ const Dashboard = () => {
   // Sample data
   const trips = [
     {
-      title: "Bangkok Street Food Hop",
+      id: "thailand-2024-bangkok",
+      title: "Bangkok Food Hop",
       progress: 72,
       stats: "6 eats • 3 cafes",
       locations: ["Chatuchak", "Sky Bar"],
-      timeToComplete: "37s to build"
+      timeToComplete: "Building... 37s left",
+      isBuilding: true
     },
     {
+      id: "thailand-2024-phuket",
       title: "Phuket Luxury Escape", 
       progress: 45,
       stats: "2 villas • 4 beaches",
       locations: ["Patong", "Kata Beach"],
-      timeToComplete: "2m to complete"
+      timeToComplete: "Trip last updated 2h ago",
+      isBuilding: false
     }
   ];
 
@@ -322,13 +326,14 @@ const Dashboard = () => {
   ];
 
   const TripCard = ({ trip }: { trip: typeof trips[0] }) => (
-    <Card className="mb-4 hover:shadow-md transition-all duration-200 cursor-pointer border-l-4 border-l-coral">
+    <Card className="mb-4 hover:shadow-md transition-all duration-200 cursor-pointer border-l-4 border-l-coral hover:scale-[1.02]">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm font-medium">{trip.title}</CardTitle>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <span>{trip.stats}</span>
           <Clock className="h-3 w-3" />
-          <span>{trip.timeToComplete}</span>
+          <span className={trip.isBuilding ? "text-coral font-medium" : ""}>{trip.timeToComplete}</span>
+          {trip.isBuilding && <div className="w-2 h-2 bg-coral rounded-full animate-pulse" />}
         </div>
       </CardHeader>
       <CardContent className="pt-0">
@@ -337,12 +342,24 @@ const Dashboard = () => {
           <span className="text-xs font-medium text-coral">{trip.progress}%</span>
         </div>
         <Progress value={trip.progress} className="h-2 mb-2" />
-        <div className="flex gap-1">
-          {trip.locations.map((location, idx) => (
-            <Badge key={idx} variant="secondary" className="text-xs px-2 py-0">
-              {location}
-            </Badge>
-          ))}
+        <div className="flex items-center justify-between">
+          <div className="flex gap-1">
+            {trip.locations.map((location, idx) => (
+              <Badge key={idx} variant="secondary" className="text-xs px-2 py-0">
+                {location}
+              </Badge>
+            ))}
+          </div>
+          <Button
+            size="sm"
+            className="h-6 px-2 text-xs bg-coral hover:bg-coral-dark text-white"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/preview-itinerary?tripId=${trip.id}`);
+            }}
+          >
+            Continue
+          </Button>
         </div>
       </CardContent>
     </Card>
@@ -354,6 +371,17 @@ const Dashboard = () => {
       WA: "bg-green-500", 
       TT: "bg-black"
     };
+
+    const getSourceHandle = (source: string) => {
+      switch(source) {
+        case 'IG': return '@bangkok_eats';
+        case 'WA': return 'Sarah';
+        case 'TT': return '@tiktok_travel';
+        default: return source;
+      }
+    };
+
+    const isLinkedToTrip = Math.random() > 0.5; // Mock logic
     
     return (
       <Card className="group hover:shadow-lg transition-all duration-200 hover:scale-[1.02] cursor-pointer">
@@ -368,17 +396,30 @@ const Dashboard = () => {
           >
             {item.source}
           </Badge>
+          {isLinkedToTrip && (
+            <Badge className="absolute top-2 left-2 bg-coral text-white text-xs">
+              Used in Bangkok Trip - Day 2
+            </Badge>
+          )}
         </div>
         <CardContent className="p-3">
           <div className="flex items-start justify-between mb-1">
             <h4 className="font-medium text-sm leading-tight">{item.preview}</h4>
           </div>
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
             <div className="flex items-center gap-1">
               <MapPin className="h-3 w-3" />
               <span>{item.location}</span>
             </div>
             <span>{item.price || item.timeSaved}</span>
+          </div>
+          <div className="text-xs text-muted-foreground">
+            {getSourceHandle(item.source)} ({item.source})
+          </div>
+          <div className="flex gap-1 mt-2">
+            {/* Theme chips */}
+            <Badge variant="outline" className="text-xs">Local</Badge>
+            <Badge variant="outline" className="text-xs">Vegan</Badge>
           </div>
         </CardContent>
       </Card>
@@ -389,16 +430,19 @@ const Dashboard = () => {
   const forYouData = [
     {
       type: "continuation",
-      title: "Continue Planning Bangkok",
+      title: "Bangkok Food Hop",
       progress: 72,
       image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png",
-      timeToComplete: "37s to build"
+      timeToComplete: "Building... 37s left",
+      tripId: "thailand-2024-bangkok",
+      isBuilding: true
     },
     {
       type: "new",
       title: "Phuket Luxury Escapes",
       reason: "Based on your saved villas",
-      image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png"
+      image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png",
+      tripId: "thailand-2024-phuket"
     }
   ];
 
@@ -406,14 +450,16 @@ const Dashboard = () => {
     {
       title: "Bangkok Food Hop",
       lastAccessed: "2 hours ago",
-      days: 14,
-      image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png"
+      days: 11,
+      image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png",
+      tripId: "thailand-2024-bangkok"
     },
     {
       title: "Chiang Mai Wildlife",
       lastAccessed: "Yesterday",
       days: 7,
-      image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png"
+      image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png",
+      tripId: "thailand-2024-chiang-mai"
     }
   ];
 
@@ -1022,12 +1068,12 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <Button 
-                      onClick={() => navigate('/preview-itinerary')}
-                      className="bg-coral hover:bg-coral/90 text-white"
+                      onClick={() => navigate('/preview-itinerary?tripId=thailand-2024-bangkok')}
+                      className="bg-coral hover:bg-coral/90 text-white hover:scale-105 transition-all duration-200"
                       size="sm"
                     >
                       <Eye className="h-4 w-4 mr-2" />
-                      Full Itinerary
+                      View Detailed Itinerary
                     </Button>
                   </div>
 
