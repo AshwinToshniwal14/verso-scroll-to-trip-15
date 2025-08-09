@@ -607,7 +607,7 @@ const Dashboard = () => {
 
   return (
     <SidebarProvider defaultOpen={false}>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-screen flex w-full overflow-x-hidden bg-background">
         {/* Header with Sidebar Trigger */}
         <header className="fixed top-0 left-0 right-0 h-12 flex items-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
           <SidebarTrigger className="ml-2" />
@@ -800,7 +800,7 @@ const Dashboard = () => {
                   </div>
 
                   {/* Interactive Filters */}
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex gap-2 mb-6 overflow-x-auto whitespace-nowrap sm:flex-wrap no-scrollbar">
                     <Dialog open={showDateModal} onOpenChange={setShowDateModal}>
                       <DialogTrigger asChild>
                         <div className="flex items-center gap-1 px-3 py-2 rounded-full bg-muted/50 text-sm cursor-pointer hover:bg-muted transition-colors">

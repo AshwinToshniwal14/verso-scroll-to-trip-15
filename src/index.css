@@ -89,12 +89,13 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased overflow-x-hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 }
 
@@ -300,6 +301,14 @@
     .body-large {
       @apply text-lg;
     }
+  }
+  /* Hide scrollbar utility */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
   }
 }
 

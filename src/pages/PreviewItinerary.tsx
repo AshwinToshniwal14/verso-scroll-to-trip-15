@@ -640,9 +640,9 @@ const PreviewItinerary = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row overflow-x-hidden">
       {/* Left Sidebar - 50% width */}
-      <div className="w-1/2 bg-white border-r border-gray-200 flex flex-col">
+      <div className="w-full lg:w-1/2 bg-white border-r border-gray-200 flex flex-col">
         {/* Header */}
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center gap-2 mb-4">
@@ -835,7 +835,7 @@ const PreviewItinerary = () => {
       </div>
 
       {/* Right Panel - 50% width */}
-      <div className="w-1/2 p-6">
+      <div className="w-full lg:w-1/2 p-4 lg:p-6">
         {rightPanelContent === 'map' && <MapPanel />}
         {rightPanelContent === 'details' && <DetailsPanel />}
         {rightPanelContent === 'booking' && <BookingPanel />}
