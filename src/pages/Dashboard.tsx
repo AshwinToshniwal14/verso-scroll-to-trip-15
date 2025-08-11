@@ -657,7 +657,8 @@ const Dashboard = () => {
             <div className="p-4 lg:p-6">
               {/* Render different views based on currentView */}
               {currentView === "home" && (
-                <div className="space-y-8">
+                <>
+                  <div className="space-y-8">
     <div className="space-y-4 mb-4">
       <div className="flex items-center gap-3">
         <Popover open={countryPopoverOpen} onOpenChange={setCountryPopoverOpen}>
@@ -817,8 +818,7 @@ const Dashboard = () => {
                     ))}
                   </div>
                 </section>
-              </div>
-            </div>
+              </>
           )}
 
               {currentView === "saved" && (
