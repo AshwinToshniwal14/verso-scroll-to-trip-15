@@ -73,6 +73,11 @@ const Index = () => {
             <p>Log in to see your travel inbox</p>
           </TooltipContent>
         </Tooltip>
+
+        {/* Chat Assistant moved to left for mobile ergonomics */}
+        <div className="fixed bottom-6 left-6 z-50">
+          <ChatAssistant />
+        </div>
       </div>
     </TooltipProvider>
   );

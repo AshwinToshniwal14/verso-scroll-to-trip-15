@@ -56,7 +56,9 @@ import {
   Compass,
   CheckCircle,
   XCircle,
-  AlertCircle
+  AlertCircle,
+  Search,
+  ChevronDown
 } from "lucide-react";
 
 const Dashboard = () => {
@@ -83,6 +85,9 @@ const Dashboard = () => {
   const [children, setChildren] = useState(0);
   const [selectedTravelerType, setSelectedTravelerType] = useState("couple");
   const [selectedBudget, setSelectedBudget] = useState("sensible");
+  const [selectedCountry, setSelectedCountry] = useState("Thailand");
+  const [countryQuery, setCountryQuery] = useState("");
+  const [countryPopoverOpen, setCountryPopoverOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -481,6 +486,37 @@ const Dashboard = () => {
     }
   ];
 
+  const guidesData = [
+    {
+      title: "Thailand",
+      places: 5,
+      image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png",
+      author: "lucieslivkova",
+      location: "Thailand"
+    },
+    {
+      title: "Toddlers and Thai adventure",
+      places: 24,
+      image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png",
+      author: "nomaradness",
+      location: "Thailand"
+    },
+    {
+      title: "Krabi Nature Circuits",
+      places: 31,
+      image: "/lovable-uploads/edfefd31-e9be-4269-a9c8-e098d69fbe86.png",
+      author: "verso_travel",
+      location: "Thailand"
+    },
+    {
+      title: "Bangkok Foodie Week",
+      places: 18,
+      image: "/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png",
+      author: "verified_creator",
+      location: "Thailand"
+    }
+  ];
+
   const AppSidebar = () => {
     const { state } = useSidebar();
 
@@ -622,13 +658,74 @@ const Dashboard = () => {
               {/* Render different views based on currentView */}
               {currentView === "home" && (
                 <div className="space-y-8">
-                  <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold mb-2">Where to today, Ashwin?</h1>
-                    <p className="text-muted-foreground">Hey there, I'm here to assist you in planning your experience. Ask me anything travel related.</p>
-                  </div>
+    <div className="space-y-4 mb-4">
+      <div className="flex items-center gap-3">
+        <Popover open={countryPopoverOpen} onOpenChange={setCountryPopoverOpen}>
+          <PopoverTrigger asChild>
+            <button className="flex items-center gap-1 font-semibold">
+              {selectedCountry}
+              <ChevronDown className="h-4 w-4" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80">
+            <div className="space-y-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  value={countryQuery || selectedCountry}
+                  onChange={(e) => setCountryQuery(e.target.value)}
+                  className="pl-9 rounded-full"
+                />
+              </div>
+              <button className="w-full text-left px-3 py-2 rounded-lg hover:bg-muted flex items-center gap-2">
+                <MapPin className="h-4 w-4" /> Use current location
+              </button>
+              <div>
+                <div className="text-xs text-muted-foreground mb-2">Recent locations</div>
+                <div className="space-y-2">
+                  {[
+                    { name: "Thailand", sub: "Country", img: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png" },
+                    { name: "Norway", sub: "Country", img: "/lovable-uploads/9ad3c331-19eb-4ce1-9065-2a902eda5bdc.png" },
+                    { name: "Southern Province", sub: "Sri Lanka", img: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png" },
+                    { name: "Bali", sub: "Indonesia", img: "/lovable-uploads/8006d940-cc72-415d-ad51-54765e172984.png" },
+                    { name: "Bengaluru", sub: "Karnataka, India", img: "/lovable-uploads/821fb983-af77-4d9e-b33e-effe2be267b1.png" }
+                  ].map((c) => (
+                    <button
+                      key={c.name}
+                      onClick={() => { setSelectedCountry(c.name); setCountryPopoverOpen(false); }}
+                      className="w-full flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted"
+                    >
+                      <img src={c.img} alt={c.name} className="w-9 h-9 rounded-md object-cover" />
+                      <div className="text-left">
+                        <div className="text-sm font-medium">{c.name}</div>
+                        <div className="text-xs text-muted-foreground">{c.sub}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
 
-                  {/* Three Core Sections Grid */}
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="relative flex-1">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input placeholder="Search" className="pl-9 h-11 rounded-full bg-muted" />
+        </div>
+
+        <Button variant="outline" className="rounded-full">
+          <Filter className="h-4 w-4 mr-2" /> Filters
+        </Button>
+      </div>
+
+      <div className="text-center">
+        <h1 className="text-3xl font-bold mb-2">Where to today, Ashwin?</h1>
+        <p className="text-muted-foreground">Hey there, I'm here to assist you in planning your experience. Ask me anything travel related.</p>
+      </div>
+    </div>
+
+    {/* Three Core Sections Grid */}
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Section 1: For You */}
                     <div className="space-y-4">
                       <h2 className="text-xl font-bold">For You</h2>
@@ -693,7 +790,36 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-              )}
+
+                {/* Guides Section */}
+                <section className="space-y-4 mt-6">
+                  <h2 className="text-xl font-bold">Guides</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {guidesData.map((g, idx) => (
+                      <Card key={idx} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+                        <div className="relative">
+                          <img src={g.image} alt={`${g.title} guide`} className="w-full h-56 object-cover" />
+                          <Badge className="absolute top-2 left-2 bg-black/70 text-white text-xs">
+                            {g.places} places
+                          </Badge>
+                          <div className="absolute right-2 top-2 bg-white/80 rounded-full px-2 py-1 text-[10px] font-medium">
+                            Verified
+                          </div>
+                        </div>
+                        <CardContent className="p-4">
+                          <h3 className="font-semibold leading-tight">{g.title}</h3>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                            <MapPin className="h-3 w-3" /> {g.location}
+                          </div>
+                          <div className="text-xs text-muted-foreground mt-2">by {g.author}</div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </section>
+              </div>
+            </div>
+          )}
 
               {currentView === "saved" && (
                 <div className="space-y-6">
@@ -742,13 +868,46 @@ const Dashboard = () => {
                           ))}
                         </div>
                       </Card>
+
+                      {/* UAE destination */}
+                      <Card className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                          <div>
+                            <h3 className="text-xl font-bold">United Arab Emirates</h3>
+                            <p className="text-muted-foreground">18 saved dreams</p>
+                          </div>
+                          <div className="flex -space-x-2">
+                            <div className="w-8 h-8 rounded-full bg-coral text-white flex items-center justify-center text-sm font-medium border-2 border-white">A</div>
+                            <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-medium border-2 border-white">S</div>
+                            <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm font-medium border-2 border-white">R</div>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {[
+                            { name: "Dubai", count: 10, image: "/lovable-uploads/75ae7313-3617-4155-aa86-a98edcbc0d16.png" },
+                            { name: "Abu Dhabi", count: 8, image: "/lovable-uploads/944ceb5e-c60e-4779-83d5-5f2c5187cc4e.png" }
+                          ].map((location) => (
+                            <Card key={location.name} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+                              <div className="relative">
+                                <img src={location.image} alt={location.name} className="w-full h-32 object-cover" />
+                                <div className="absolute inset-0 bg-black/30 flex items-end p-4">
+                                  <div className="text-white">
+                                    <h4 className="font-semibold">{location.name}</h4>
+                                    <p className="text-sm opacity-90">{location.count} saves</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </Card>
+                          ))}
+                        </div>
+                      </Card>
                     </TabsContent>
 
                     <TabsContent value="saved-lists" className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {[
-                          { title: "Top Cocktail Bars in Bangalore", count: "12 venues", image: "/lovable-uploads/c45a5501-917b-40c4-b954-3a8382ce76ce.png", tags: ["Nightlife", "Local"] },
-                          { title: "New Restaurants (Last Month)", count: "8 spots", image: "/lovable-uploads/adc9a232-4eaf-487d-a742-b589704cdc8f.png", tags: ["Food", "New"] },
+                          { title: "Top Cocktail Bars in Bangalore", count: "12 venues", image: "/lovable-uploads/ea4841bb-744b-4573-a24d-1cc19c322390.png", tags: ["Nightlife", "Local"] },
+                          { title: "New Restaurants (Last Month)", count: "8 spots", image: "/lovable-uploads/ee81d6e4-f144-4d3e-8320-5fd7e161f776.png", tags: ["Food", "New"] },
                           { title: "Best Ramen in Your City", count: "5 specialists", image: "/lovable-uploads/70ed9a32-2f15-4f6f-83a8-61719ca3c2de.png", tags: ["Japanese", "Comfort"] }
                         ].map((list, idx) => (
                           <Card key={idx} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
