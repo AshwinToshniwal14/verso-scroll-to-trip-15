@@ -7,7 +7,7 @@ import { EmbeddedWaitlist } from "@/components/EmbeddedWaitlist";
 import { StickyCTA } from "@/components/StickyCTA";
 import { Footer } from "@/components/Footer";
 import CTASample from "@/components/CTASample";
-import ChatAssistant from "@/components/ChatAssistant";
+import PlanTravelLauncher from "@/components/PlanTravelLauncher";
 import { useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -52,8 +52,7 @@ const Index = () => {
         {/* Sticky CTA */}
         <StickyCTA />
         
-        {/* Chat Assistant */}
-        <ChatAssistant />
+        
         
         {/* Minimal Footer */}
         <Footer />
@@ -74,9 +73,9 @@ const Index = () => {
           </TooltipContent>
         </Tooltip>
 
-        {/* Chat Assistant moved to left for mobile ergonomics */}
+        {/* Plan Travel launcher (mobile bottom sheet / desktop route) */}
         <div className="fixed bottom-6 left-6 z-50">
-          <ChatAssistant />
+          <PlanTravelLauncher />
         </div>
       </div>
     </TooltipProvider>

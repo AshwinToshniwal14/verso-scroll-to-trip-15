@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { format, addDays, differenceInDays } from "date-fns";
 import { cn } from "@/lib/utils";
 import {
@@ -60,10 +60,12 @@ import {
   Search,
   ChevronDown
 } from "lucide-react";
+import PlanTravel from "@/components/PlanTravel";
 
 const Dashboard = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -88,6 +90,12 @@ const Dashboard = () => {
   const [selectedCountry, setSelectedCountry] = useState("Thailand");
   const [countryQuery, setCountryQuery] = useState("");
   const [countryPopoverOpen, setCountryPopoverOpen] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const view = params.get('view');
+    if (view === 'plan') setCurrentView('plan');
+  }, [location.search]);
 
   const handleLogout = () => {
     logout();
@@ -524,7 +532,7 @@ const Dashboard = () => {
       { title: "Home", icon: Home, id: "home", active: currentView === "home" },
       { title: "Saved", icon: Heart, id: "saved", active: currentView === "saved" },
       { title: "Trips", icon: Luggage, id: "trips", active: currentView === "trips" },
-      { title: "Chat", icon: MessageCircle, id: "chat", active: currentView === "chat", badge: "3" },
+      { title: "Plan Travel", icon: Compass, id: "plan", active: currentView === "plan" },
     ];
 
     return (
@@ -1297,38 +1305,9 @@ const Dashboard = () => {
                 </div>
               )}
 
-              {currentView === "chat" && (
+              {currentView === "plan" && (
                 <div className="space-y-6">
-                  <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold mb-2">Chat with Verso AI</h1>
-                    <p className="text-muted-foreground">Ask anything about your travel plans</p>
-                  </div>
-
-                  {/* Chat Interface */}
-                  <Card className="h-96">
-                    <CardContent className="p-6 h-full flex flex-col">
-                      <div className="flex-1 space-y-4">
-                        <div className="bg-muted p-4 rounded-lg">
-                          <p className="text-sm">Let me know if you'd like to adjust the pace or add special interests!</p>
-                          <div className="flex gap-2 mt-3">
-                            <Badge variant="outline" className="cursor-pointer hover:bg-muted">🌿 Add nature day</Badge>
-                            <Badge variant="outline" className="cursor-pointer hover:bg-muted">🍜 More food experiences</Badge>
-                            <Badge variant="outline" className="cursor-pointer hover:bg-muted">⚡ Faster pace</Badge>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex gap-2 pt-4 border-t">
-                        <Input placeholder="Ask anything..." className="flex-1" />
-                        <Button size="sm">
-                          <Mic className="h-4 w-4" />
-                        </Button>
-                        <Button size="sm" className="bg-coral hover:bg-coral/90">
-                          Send
-                        </Button>
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-2">⏰ AI may make mistakes - verify important details</p>
-                    </CardContent>
-                  </Card>
+                  <PlanTravel destination={selectedCountry} />
                 </div>
               )}
             </div>
@@ -1342,7 +1321,7 @@ const Dashboard = () => {
               { title: "Home", icon: Home, id: "home" },
               { title: "Saved", icon: Heart, id: "saved" },
               { title: "Trips", icon: Luggage, id: "trips" },
-              { title: "Chat", icon: MessageCircle, id: "chat" }
+              { title: "Plan Travel", icon: Compass, id: "plan" }
             ].map((item) => (
               <button
                 key={item.title}
