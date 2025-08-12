@@ -83,7 +83,7 @@ export const Navbar: React.FC = () => {
 
         {/* CTAs */}
         <div className="flex items-center gap-2">
-          <Link to="/login" aria-label="Login" className="hidden md:inline-flex">
+          <Link to="/login" aria-label="Login" className="inline-flex">
             <Button variant="ghost" size="icon">
               <LogIn className="h-4 w-4" />
             </Button>

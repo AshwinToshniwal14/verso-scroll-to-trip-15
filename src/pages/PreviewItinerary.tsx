@@ -305,7 +305,7 @@ const PreviewItinerary = () => {
               <Button variant="ghost" size="sm" onClick={() => setRightPanelContent('map')}>
                 <ArrowLeft className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/') }>
                 <ChevronRight className="w-4 h-4 rotate-180" />
               </Button>
             </div>

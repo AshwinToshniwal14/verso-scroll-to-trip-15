@@ -54,9 +54,10 @@ export const Hero = () => {
   };
 
   return (
-    <section className="min-h-screen flex flex-col justify-center bg-white px-4 py-8">
-      <div className="w-full max-w-sm mx-auto">
-        
+    <section className="relative min-h-screen flex flex-col justify-center bg-white px-4 py-8 overflow-hidden">
+      {/* Global gradient to improve text contrast */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/5" />
+      <div className="w-full max-w-sm mx-auto relative">
         {/* New Hero Copy */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold leading-tight mb-4 text-primary">
@@ -69,7 +70,7 @@ export const Hero = () => {
         </div>
 
         {/* Content-to-Itinerary Transformation Flow */}
-        <div className="mb-8">
+        <div className="mb-8 relative">
           <div 
             className="relative overflow-hidden rounded-2xl"
             onTouchStart={(e) => {
@@ -97,6 +98,8 @@ export const Hero = () => {
                         className="w-full h-80 object-cover"
                         loading={index === 0 ? "eager" : "lazy"}
                       />
+                      {/* Image gradient overlay for readability */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                       <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
                         <span className="text-xl">{step.icon}</span>
                       </div>
@@ -118,8 +121,23 @@ export const Hero = () => {
                 </div>
               ))}
             </div>
+
+            {/* Desktop arrow controls */}
+            <button
+              aria-label="Previous"
+              className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full w-10 h-10 items-center justify-center shadow"
+              onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
+            >
+              ‹
+            </button>
+            <button
+              aria-label="Next"
+              className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full w-10 h-10 items-center justify-center shadow"
+              onClick={() => setCurrentStep((s) => Math.min(transformationSteps.length - 1, s + 1))}
+            >
+              ›
+            </button>
           </div>
-          
           {/* Step Indicators */}
           <div className="flex justify-center mt-6 space-x-3">
             {transformationSteps.map((_, index) => (
@@ -134,9 +152,12 @@ export const Hero = () => {
           </div>
         </div>
 
-        {/* Updated CTA */}
-        <div className="mb-4">
-          <WaitlistForm />
+        {/* Updated CTAs */}
+        <div className="mb-4 flex flex-col items-center gap-3">
+          <div className="w-full">
+            <WaitlistForm />
+          </div>
+          <a href="#how-it-works" className="text-sm text-primary hover:underline">See how it works →</a>
         </div>
         <p className="text-base text-center text-gray-500">Early access • Free travel toolkit</p>
 

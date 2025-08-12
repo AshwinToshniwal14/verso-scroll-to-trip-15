@@ -56,36 +56,37 @@ export const TripsBecomeFlywheel = () => {
         />
 
         {/* Gallery */}
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="mt-6 flex gap-4 overflow-x-auto snap-x pb-2 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible">
           {filtered.map((trip, idx) => {
-            const isFeature = trip.featured && idx < 2; // show a few larger cards
+            const isFeature = trip.featured && idx < 2; // show a few larger cards on desktop
             return (
               <article
                 key={trip.id}
-                className={`group relative overflow-hidden rounded-2xl border bg-card ${isFeature ? 'sm:col-span-2' : ''}`}
+                className={`group relative overflow-hidden rounded-2xl border bg-card min-w-[85%] sm:min-w-[60%] md:min-w-0 snap-start ${isFeature ? 'md:col-span-2' : ''}`}
+                aria-label={`${trip.title} by ${trip.creator}`}
               >
                 <img
                   src={trip.image}
                   alt={`${trip.title} in ${trip.location}`}
-                  className={`w-full ${isFeature ? 'h-80' : 'h-56'} object-cover transition-transform duration-300 group-hover:scale-105`}
+                  className={`w-full ${isFeature ? 'h-72 md:h-80' : 'h-64 md:h-56'} object-cover transition-transform duration-300 group-hover:scale-105`}
                   loading="lazy"
                 />
 
-                {/* Text overlay */}
-                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/60 to-transparent text-white">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-semibold leading-tight">{trip.title}</h3>
-                      <p className="text-xs opacity-90">{trip.location} • {trip.length} • {trip.creator}</p>
+                {/* Gradient + Text overlay */}
+                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/70 via-black/30 to-transparent text-white">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <h3 className="font-semibold leading-tight line-clamp-2">{trip.title}</h3>
+                      <p className="text-xs opacity-90 truncate">{trip.location} • {trip.length} • {trip.creator}</p>
                     </div>
-                    <div className="text-sm font-medium">⭐ {trip.rating}</div>
+                    <div className="text-sm font-medium shrink-0">⭐ {trip.rating}</div>
                   </div>
                 </div>
 
-                {/* Hover actions */}
+                {/* Hover/Tap actions */}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors" />
                 <div className="absolute inset-x-4 bottom-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
-                  <Button size="sm" className="bg-coral text-white">Explore Trip</Button>
+                  <Button size="sm" variant="coral">Explore Trip</Button>
                   <Button size="sm" variant="secondary">Save to My Trip</Button>
                 </div>
               </article>

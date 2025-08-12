@@ -872,8 +872,8 @@ const Dashboard = () => {
                   <Tabs defaultValue="destinations" className="w-full">
                     <TabsList className="grid w-full grid-cols-3">
                       <TabsTrigger value="destinations">Destinations</TabsTrigger>
-                      <TabsTrigger value="saved-lists">Saved Lists</TabsTrigger>
-                      <TabsTrigger value="domestic">Domestic Escapes</TabsTrigger>
+                      <TabsTrigger value="saved-lists">Lists</TabsTrigger>
+                      <TabsTrigger value="domestic">Near You</TabsTrigger>
                     </TabsList>
                     
                     <TabsContent value="destinations" className="space-y-6">

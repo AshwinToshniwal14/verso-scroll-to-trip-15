@@ -24,15 +24,7 @@ export const ChaosToCalm = () => {
     <section ref={sectionRef} className="py-16 bg-warm-white">
       <div className="max-w-sm mx-auto px-4">
         
-        {/* Section Header */}
-        <div className={`text-center mb-8 transition-all duration-1000 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-2xl font-bold text-primary mb-6">
-            You've got travel ideas everywhere.
-          </h2>
-          <p className="text-base text-gray-600 mb-6">
-            Tag or forward from:
-          </p>
-        </div>
+        {/* Section Header removed per request to avoid repetition */}
 
         {/* Simplified Platform Grid */}
         <div className={`mb-8 transition-all duration-1000 delay-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
@@ -68,12 +60,7 @@ export const ChaosToCalm = () => {
             </div>
           </div>
           
-          {/* Simplified Callout */}
-          <div className="text-center">
-            <p className="text-lg font-medium text-coral">
-              Send it. We'll take it from there.
-            </p>
-          </div>
+          {/* Callout removed per request */}
         </div>
 
         {/* Transformation Arrow */}
