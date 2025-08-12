@@ -575,16 +575,9 @@ const Dashboard = () => {
                               onClick={() => setCurrentView(item.id)}
                             >
                               <item.icon className="h-4 w-4 mr-3" />
-                              {state === "expanded" && (
-                                <>
-                                  <span>{item.title}</span>
-                                  {item.badge && (
-                                    <Badge className="ml-auto h-5 w-5 p-0 flex items-center justify-center text-xs bg-coral text-white">
-                                      {item.badge}
-                                    </Badge>
-                                  )}
-                                </>
-                              )}
+{state === "expanded" && (
+  <span>{item.title}</span>
+)}
                             </div>
                           </SidebarMenuButton>
                         </TooltipTrigger>
