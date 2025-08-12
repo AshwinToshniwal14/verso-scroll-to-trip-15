@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import PlanTravel from "@/components/PlanTravel";
+import ProgressBar from "@/components/ProgressBar";
+import BookingSummary from "@/components/BookingSummary";
 
 const DestinationPlan: React.FC = () => {
   const [params] = useSearchParams();
@@ -39,7 +41,9 @@ const DestinationPlan: React.FC = () => {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <main className="max-w-6xl mx-auto px-4 py-6">
+        <ProgressBar currentStep={1} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column: content */}
         <section className="lg:col-span-2 space-y-6">
           {/* Hero */}
@@ -126,11 +130,13 @@ const DestinationPlan: React.FC = () => {
           </section>
         </section>
 
-        {/* Right column: Plan Travel */}
-        <aside className="lg:col-span-1">
+        {/* Right column: Plan Travel + Booking Summary */}
+        <aside className="lg:col-span-1 space-y-4">
           <PlanTravel destination={name} />
+          <BookingSummary pricePerPerson={899} nights={5} urgencyText="Booked 12 times today" />
         </aside>
-      </main>
+      </div>
+    </main>
     </div>
   );
 };

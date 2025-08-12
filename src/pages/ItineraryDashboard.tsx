@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import ProgressBar from "@/components/ProgressBar";
+import BookingSummary from "@/components/BookingSummary";
 import { useNavigate } from "react-router-dom";
 import { 
   MapPin, 
@@ -364,7 +366,7 @@ const ItineraryDashboard = () => {
               <div className="mb-6">
                 <h1 className="text-2xl font-bold mb-2">{tripData.title}</h1>
                 <p className="text-muted-foreground mb-4">{tripData.duration}</p>
-                
+                <ProgressBar currentStep={2} />
                 {/* Filter Bar */}
                 <div className="flex items-center gap-4 mb-6">
                   <Button variant="outline" size="sm">
@@ -441,8 +443,9 @@ const ItineraryDashboard = () => {
 
           {/* Chat & Tools Panel */}
           <div className="w-80 bg-card border-l border-border overflow-auto">
-            <div className="p-4">
-              <div className="mb-4">
+            <div className="p-4 space-y-4">
+              <BookingSummary pricePerPerson={1099} nights={14} urgencyText="Only 2 left at this price" />
+              <div className="mb-2">
                 <h3 className="font-semibold mb-2">Trip Assistant</h3>
                 <p className="text-sm text-muted-foreground">Ask me anything about your Bangkok trip</p>
               </div>

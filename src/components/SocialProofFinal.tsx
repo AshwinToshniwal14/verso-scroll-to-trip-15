@@ -70,7 +70,8 @@ export const SocialProofFinal = () => {
         
         {/* Section Header */}
         <div className={`text-center mb-12 transition-all duration-1000 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-3xl font-bold leading-tight mb-6 text-primary">
+          <p className="text-sm text-muted-foreground mb-2">Trusted by 1,200+ travellers</p>
+          <h2 className="text-3xl font-extrabold leading-tight mb-3 text-primary">
             Stop planning. Start traveling.
           </h2>
           <p className="text-lg text-gray-600">See what early users are saying.</p>
@@ -152,12 +153,19 @@ export const SocialProofFinal = () => {
           </div>
         </div>
 
+        {/* Trust badges */}
+        <div className={`mx-auto max-w-md grid grid-cols-3 gap-3 text-center mb-8 transition-all duration-1000 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="bg-white border rounded-lg p-3 text-sm">Secure payments</div>
+          <div className="bg-white border rounded-lg p-3 text-sm">Free cancellation</div>
+          <div className="bg-white border rounded-lg p-3 text-sm">Trusted partners</div>
+        </div>
+
         {/* Final CTA */}
         <div className={`text-center transition-all duration-1000 delay-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="mb-4">
             <WaitlistForm />
           </div>
-          <p className="text-sm text-gray-500">Trusted by 8,400+ travelers saving 3M+ pieces of content</p>
+          <p className="text-sm text-gray-500">87% say social proof influences booking decisions</p>
         </div>
 
       </div>
