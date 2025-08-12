@@ -654,7 +654,7 @@ const Dashboard = () => {
         <AppSidebar />
 
         {/* Main Content */}
-        <main className="flex-1 flex flex-col pt-12 pb-20 lg:pb-28">
+        <main className="flex-1 flex flex-col pt-12 pb-28">
           <div className="flex-1 overflow-y-auto">
             <div className="p-4 lg:p-6">
               {/* Render different views based on currentView */}
@@ -995,7 +995,7 @@ const Dashboard = () => {
               {currentView === "trips" && (
                 <div className="space-y-6">
                   <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold mb-2">Your Thailand Adventure</h1>
+                    <h1 className="text-3xl font-bold mb-2 break-words text-balance">Your Thailand Adventure</h1>
                     <p className="text-muted-foreground">We've organized your trip into a beautiful itinerary ready for your journey.</p>
                   </div>
 

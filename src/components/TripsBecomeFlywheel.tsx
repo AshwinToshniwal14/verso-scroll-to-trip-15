@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CategoryFilter from "./CategoryFilter";
 import { Button } from "@/components/ui/button";
 
@@ -18,7 +18,8 @@ const ALL_CATEGORIES = ["Beach", "Food", "Culture", "Adventure"] as const;
 
 export const TripsBecomeFlywheel = () => {
   const [selected, setSelected] = useState<string[]>([]);
-
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [paused, setPaused] = useState(false);
   const trips = useMemo<TripCard[]>(
     () => [
       { id: "1", title: "Lisbon Cafés & Tiles", location: "Portugal", length: "5 days", creator: "@luisa", image: "/lovable-uploads/50450ba1-2407-4d4f-97c3-6bb955cac313.png", rating: 4.8, categories: ["Food", "Culture"], featured: true },
@@ -40,6 +41,20 @@ export const TripsBecomeFlywheel = () => {
     setSelected((prev) => (prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]));
   };
 
+  // Auto-scroll horizontally like hero carousel
+  useEffect(() => {
+    if (paused) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const id = setInterval(() => {
+      if (!el) return;
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      const next = el.scrollLeft + el.clientWidth * 0.9;
+      el.scrollTo({ left: next >= maxScroll ? 0 : next, behavior: 'smooth' });
+    }, 3500);
+    return () => clearInterval(id);
+  }, [paused, filtered.length]);
+
   return (
     <section className="py-16 bg-gradient-to-b from-background to-muted/30">
       <div className="max-w-6xl mx-auto px-4">
@@ -56,13 +71,18 @@ export const TripsBecomeFlywheel = () => {
         />
 
         {/* Gallery */}
-        <div className="mt-6 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4 pr-4 pb-2 -mx-4 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:snap-none">
+        <div
+          ref={containerRef}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          className="mt-6 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4 pr-4 pb-2 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:snap-none"
+        >
           {filtered.map((trip, idx) => {
             const isFeature = trip.featured && idx < 2; // show a few larger cards on desktop
             return (
               <article
                 key={trip.id}
-                className={`group relative overflow-hidden rounded-2xl border bg-card min-w-[75%] sm:min-w-[60%] md:min-w-0 snap-start ${isFeature ? 'md:col-span-2' : ''}`}
+                className={`group relative overflow-hidden rounded-2xl border bg-card min-w-[80%] sm:min-w-[60%] md:min-w-0 snap-start ${isFeature ? 'md:col-span-2' : ''}`}
                 aria-label={`${trip.title} by ${trip.creator}`}
               >
                 <img
@@ -76,7 +96,7 @@ export const TripsBecomeFlywheel = () => {
                 <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/70 via-black/30 to-transparent text-white">
                   <div className="flex items-center justify-between gap-3">
                     <div className="min-w-0">
-                      <h3 className="font-semibold leading-tight line-clamp-2">{trip.title}</h3>
+                      <h3 className="font-semibold leading-tight">{trip.title}</h3>
                       <p className="text-xs opacity-90 truncate">{trip.location} • {trip.length} • {trip.creator}</p>
                     </div>
                     <div className="text-sm font-medium shrink-0">⭐ {trip.rating}</div>

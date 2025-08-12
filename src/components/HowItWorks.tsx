@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlayCircle, CheckCircle2, SaveAll, Landmark } from "lucide-react";
 import { track } from "@/lib/analytics";
@@ -12,6 +12,7 @@ const steps = [
 
 const HowItWorks: React.FC = () => {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const ActiveIcon = useMemo(() => steps[active].icon, [active]);
   const stepMedia = [
     { type: "image", src: "/lovable-uploads/fecf991b-a2fb-4a4f-b66a-03f68073fdcf.png", alt: "Send to Verso from Instagram, WhatsApp, TikTok" },
@@ -20,8 +21,14 @@ const HowItWorks: React.FC = () => {
     { type: "booking" },
   ] as const;
 
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => setActive((s) => (s + 1) % steps.length), 3500);
+    return () => clearInterval(id);
+  }, [paused]);
+
   return (
-    <section id="how-it-works" className="py-16">
+    <section id="how-it-works" className="py-16" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-2xl font-bold mb-6">How it works</h2>
 
