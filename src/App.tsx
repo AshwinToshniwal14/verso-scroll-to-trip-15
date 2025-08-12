@@ -11,6 +11,7 @@ import PreviewItinerary from "./pages/PreviewItinerary";
 import ShowMyTrip from "./pages/ShowMyTrip";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import DestinationPlan from "./pages/DestinationPlan";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,11 @@ const App = () => (
             <Route path="/show-my-trip" element={
               <ProtectedRoute>
                 <ShowMyTrip />
+              </ProtectedRoute>
+            } />
+            <Route path="/destination-plan" element={
+              <ProtectedRoute>
+                <DestinationPlan />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

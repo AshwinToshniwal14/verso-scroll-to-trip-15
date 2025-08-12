@@ -94,7 +94,8 @@ const Dashboard = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const view = params.get('view');
-    if (view === 'plan') setCurrentView('plan');
+    const allowed = ["home", "saved", "trips", "plan"] as const;
+    if (view && (allowed as readonly string[]).includes(view)) setCurrentView(view);
   }, [location.search]);
 
   const handleLogout = () => {
@@ -730,12 +731,19 @@ const Dashboard = () => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Section 1: For You */}
                     <div className="space-y-4">
-                      <h2 className="text-xl font-bold">For You</h2>
-                      <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-bold">For You</h2>
+                        <Button variant="ghost" size="sm">View All</Button>
+                      </div>
+                      <div className="flex gap-4 overflow-x-auto snap-x pb-2">
                         {forYouData.map((item, idx) => (
-                          <Card key={idx} className="cursor-pointer hover:shadow-lg transition-shadow">
+                          <Card
+                            key={idx}
+                            onClick={() => navigate(`/destination-plan?name=${encodeURIComponent(item.title)}&image=${encodeURIComponent(item.image)}`)}
+                            className="cursor-pointer hover:shadow-lg transition-shadow min-w-[260px] snap-start"
+                          >
                             <div className="relative">
-                              <img src={item.image} alt={item.title} className="w-full h-40 object-cover rounded-t-lg" />
+                              <img src={item.image} alt={item.title} className="w-full h-40 object-cover rounded-t-lg" loading="lazy" />
                               {item.type === "continuation" && (
                                 <div className="absolute top-2 right-2 bg-coral text-white px-2 py-1 rounded text-xs font-medium">
                                   {item.progress}% ready
@@ -749,17 +757,29 @@ const Dashboard = () => {
                             </CardContent>
                           </Card>
                         ))}
+                        <Card className="min-w-[220px] snap-start flex items-center justify-center">
+                          <CardContent className="p-0">
+                            <Button variant="link">View All →</Button>
+                          </CardContent>
+                        </Card>
                       </div>
                     </div>
 
                     {/* Section 2: Jump Back In */}
                     <div className="space-y-4">
-                      <h2 className="text-xl font-bold">Jump Back In</h2>
-                      <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-bold">Jump Back In</h2>
+                        <Button variant="ghost" size="sm">View All</Button>
+                      </div>
+                      <div className="flex gap-4 overflow-x-auto snap-x pb-2">
                         {jumpBackInData.map((item, idx) => (
-                          <Card key={idx} className="cursor-pointer hover:shadow-lg transition-shadow">
+                          <Card
+                            key={idx}
+                            onClick={() => navigate(`/dashboard?view=trips`)}
+                            className="cursor-pointer hover:shadow-lg transition-shadow min-w-[260px] snap-start"
+                          >
                             <div className="relative">
-                              <img src={item.image} alt={item.title} className="w-full h-40 object-cover rounded-t-lg" />
+                              <img src={item.image} alt={item.title} className="w-full h-40 object-cover rounded-t-lg" loading="lazy" />
                             </div>
                             <CardContent className="p-4">
                               <h3 className="font-semibold mb-2">{item.title}</h3>
@@ -770,17 +790,29 @@ const Dashboard = () => {
                             </CardContent>
                           </Card>
                         ))}
+                        <Card className="min-w-[220px] snap-start flex items-center justify-center">
+                          <CardContent className="p-0">
+                            <Button variant="link">View All →</Button>
+                          </CardContent>
+                        </Card>
                       </div>
                     </div>
 
                     {/* Section 3: Discover */}
                     <div className="space-y-4">
-                      <h2 className="text-xl font-bold">Discover South East Asia</h2>
-                      <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-bold">Discover</h2>
+                        <Button variant="ghost" size="sm">View All</Button>
+                      </div>
+                      <div className="flex gap-4 overflow-x-auto snap-x pb-2">
                         {discoverData.map((item, idx) => (
-                          <Card key={idx} className="cursor-pointer hover:shadow-lg transition-shadow">
+                          <Card
+                            key={idx}
+                            onClick={() => navigate(`/destination-plan?name=${encodeURIComponent(item.name)}&image=${encodeURIComponent(item.image)}`)}
+                            className="cursor-pointer hover:shadow-lg transition-shadow min-w-[260px] snap-start"
+                          >
                             <div className="relative">
-                              <img src={item.image} alt={item.name} className="w-full h-40 object-cover rounded-t-lg" />
+                              <img src={item.image} alt={item.name} className="w-full h-40 object-cover rounded-t-lg" loading="lazy" />
                             </div>
                             <CardContent className="p-4">
                               <h3 className="font-semibold mb-2">{item.name}</h3>
@@ -788,19 +820,27 @@ const Dashboard = () => {
                             </CardContent>
                           </Card>
                         ))}
+                        <Card className="min-w-[220px] snap-start flex items-center justify-center">
+                          <CardContent className="p-0">
+                            <Button variant="link">View All →</Button>
+                          </CardContent>
+                        </Card>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Guides Section */}
                 <section className="space-y-4 mt-6">
                   <h2 className="text-xl font-bold">Guides</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {guidesData.map((g, idx) => (
-                      <Card key={idx} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+                      <Card
+                        key={idx}
+                        onClick={() => navigate(`/destination-plan?name=${encodeURIComponent(g.title)}&image=${encodeURIComponent(g.image)}`)}
+                        className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+                      >
                         <div className="relative">
-                          <img src={g.image} alt={`${g.title} guide`} className="w-full h-56 object-cover" />
+                          <img src={g.image} alt={`${g.title} guide`} className="w-full h-56 object-cover" loading="lazy" />
                           <Badge className="absolute top-2 left-2 bg-black/70 text-white text-xs">
                             {g.places} places
                           </Badge>
