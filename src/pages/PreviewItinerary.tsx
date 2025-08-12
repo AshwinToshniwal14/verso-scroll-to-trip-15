@@ -509,15 +509,15 @@ const PreviewItinerary = () => {
   const BookingPanel = () => (
     <div className="h-full bg-white rounded-lg flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={() => setRightPanelContent('map')}>
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
-            <ChevronRight className="w-4 h-4 rotate-180" />
-          </Button>
-        </div>
+        <div className="p-4 border-b flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" onClick={() => setRightPanelContent('map')}>
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/') }>
+              <ChevronRight className="w-4 h-4 rotate-180" />
+            </Button>
+          </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" className="flex items-center gap-1">
             <Heart className="w-4 h-4" /> Save

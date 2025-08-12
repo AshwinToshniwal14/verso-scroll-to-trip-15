@@ -54,7 +54,7 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center bg-white px-4 py-8 overflow-hidden">
+    <section className="relative min-h-screen flex flex-col justify-center bg-background px-4 py-8 overflow-hidden animate-fade-in">
       {/* Global gradient to improve text contrast */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/5" />
       <div className="w-full max-w-sm mx-auto relative">
@@ -125,14 +125,14 @@ export const Hero = () => {
             {/* Desktop arrow controls */}
             <button
               aria-label="Previous"
-              className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full w-10 h-10 items-center justify-center shadow"
+              className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-background/90 hover:bg-background rounded-full w-10 h-10 items-center justify-center shadow-lg ring-1 ring-black/5 hover-scale"
               onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
             >
               ‹
             </button>
             <button
               aria-label="Next"
-              className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full w-10 h-10 items-center justify-center shadow"
+              className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-background/90 hover:bg-background rounded-full w-10 h-10 items-center justify-center shadow-lg ring-1 ring-black/5 hover-scale"
               onClick={() => setCurrentStep((s) => Math.min(transformationSteps.length - 1, s + 1))}
             >
               ›
@@ -159,7 +159,7 @@ export const Hero = () => {
           </div>
           <a href="#how-it-works" className="text-sm text-primary hover:underline">See how it works →</a>
         </div>
-        <p className="text-base text-center text-gray-500">Early access • Free travel toolkit</p>
+        <p className="text-base text-center text-gray-500 pulse">Early access • Free travel toolkit</p>
 
       </div>
     </section>

@@ -37,7 +37,7 @@ const DestinationPlan: React.FC = () => {
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-40">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <h1 className="text-xl font-bold">Plan • {name}</h1>
-          <Button variant="ghost" onClick={() => navigate(-1)}>Back</Button>
+          <Button variant="ghost" onClick={() => navigate('/')}>Back</Button>
         </div>
       </header>
 

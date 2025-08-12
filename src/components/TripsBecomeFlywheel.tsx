@@ -56,19 +56,19 @@ export const TripsBecomeFlywheel = () => {
         />
 
         {/* Gallery */}
-        <div className="mt-6 flex gap-4 overflow-x-auto snap-x pb-2 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible">
+        <div className="mt-6 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4 pr-4 pb-2 -mx-4 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:snap-none">
           {filtered.map((trip, idx) => {
             const isFeature = trip.featured && idx < 2; // show a few larger cards on desktop
             return (
               <article
                 key={trip.id}
-                className={`group relative overflow-hidden rounded-2xl border bg-card min-w-[85%] sm:min-w-[60%] md:min-w-0 snap-start ${isFeature ? 'md:col-span-2' : ''}`}
+                className={`group relative overflow-hidden rounded-2xl border bg-card min-w-[75%] sm:min-w-[60%] md:min-w-0 snap-start ${isFeature ? 'md:col-span-2' : ''}`}
                 aria-label={`${trip.title} by ${trip.creator}`}
               >
                 <img
                   src={trip.image}
                   alt={`${trip.title} in ${trip.location}`}
-                  className={`w-full ${isFeature ? 'h-72 md:h-80' : 'h-64 md:h-56'} object-cover transition-transform duration-300 group-hover:scale-105`}
+                  className={`w-full ${isFeature ? 'h-72 md:h-80' : 'h-60 md:h-56'} object-cover transition-transform duration-300 group-hover:scale-105`}
                   loading="lazy"
                 />
 
