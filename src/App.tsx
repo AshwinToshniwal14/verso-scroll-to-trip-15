@@ -12,6 +12,7 @@ import ShowMyTrip from "./pages/ShowMyTrip";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import DestinationPlan from "./pages/DestinationPlan";
+import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
@@ -21,34 +22,36 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/preview-itinerary" element={
-              <ProtectedRoute>
-                <PreviewItinerary />
-              </ProtectedRoute>
-            } />
-            <Route path="/show-my-trip" element={
-              <ProtectedRoute>
-                <ShowMyTrip />
-              </ProtectedRoute>
-            } />
-            <Route path="/destination-plan" element={
-              <ProtectedRoute>
-                <DestinationPlan />
-              </ProtectedRoute>
-            } />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <HelmetProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/preview-itinerary" element={
+                <ProtectedRoute>
+                  <PreviewItinerary />
+                </ProtectedRoute>
+              } />
+              <Route path="/show-my-trip" element={
+                <ProtectedRoute>
+                  <ShowMyTrip />
+                </ProtectedRoute>
+              } />
+              <Route path="/destination-plan" element={
+                <ProtectedRoute>
+                  <DestinationPlan />
+                </ProtectedRoute>
+              } />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </HelmetProvider>
       </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>

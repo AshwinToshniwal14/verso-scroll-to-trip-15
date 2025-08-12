@@ -8,80 +8,58 @@ import { StickyCTA } from "@/components/StickyCTA";
 import { Footer } from "@/components/Footer";
 import CTASample from "@/components/CTASample";
 import PlanTravelLauncher from "@/components/PlanTravelLauncher";
-import { useNavigate } from "react-router-dom";
-import { User } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import Navbar from "@/components/Navbar";
+import HowItWorks from "@/components/HowItWorks";
+import { Helmet } from "react-helmet-async";
 
 const Index = () => {
-  const navigate = useNavigate();
-
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
-
   return (
-    <TooltipProvider>
-      <div className="min-h-screen">
-        {/* Hero - Save anything. We build everything. */}
-        <Hero />
-        
-        {/* Inbox → Itinerary Animation */}
-        <InboxToItinerary />
-        
-        {/* Chaos to Calm - Before/After Mobile Flow */}
-        <ChaosToCalm />
-        
-        {/* Social Proof + Final CTA */}
-        <SocialProofFinal />
-        
-        {/* CTA Sample Trip */}
-        <CTASample />
-        
-        {/* Trips Become Guides Flywheel */}
-        <TripsBecomeFlywheel />
-        
-        {/* Embedded Waitlist Form */}
-        <EmbeddedWaitlist />
-        
-        {/* Sticky CTA */}
-        <StickyCTA />
-        
-        
-        
-        {/* Minimal Footer */}
-        <Footer />
+    <>
+      <Helmet>
+        <title>Verso — Plan trips from saved content</title>
+        <meta
+          name="description"
+          content="Turn saved reels and posts into a day‑wise itinerary. Explore how it works, see gallery, testimonials, and plan your trip."
+        />
+        <link rel="canonical" href="/" />
+      </Helmet>
+      <Navbar />
+      <div className="min-h-screen pt-14">
+        <section id="hero">
+          <Hero />
+        </section>
 
-        {/* Floating Login Icon */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              onClick={handleLoginClick}
-              size="icon"
-              className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg hover:bg-white/20 hover:shadow-xl transition-all duration-300 z-50"
-            >
-              <User className="h-6 w-6 text-primary" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="left" className="hidden md:block">
-            <p>Log in to see your travel inbox</p>
-          </TooltipContent>
-        </Tooltip>
+        <section id="how-it-works">
+          <HowItWorks />
+        </section>
+
+        <section id="gallery">
+          <TripsBecomeFlywheel />
+        </section>
+
+        <section id="testimonials">
+          <SocialProofFinal />
+        </section>
+
+        <section id="plan">
+          <EmbeddedWaitlist />
+        </section>
+
+        {/* Additional narrative sections */}
+        <ChaosToCalm />
+        <InboxToItinerary />
+
+        <CTASample />
+        <StickyCTA />
+        <Footer />
 
         {/* Plan Travel launcher (mobile bottom sheet / desktop route) */}
         <div className="fixed bottom-6 left-6 z-50">
           <PlanTravelLauncher />
         </div>
       </div>
-    </TooltipProvider>
+    </>
   );
 };
 
 export default Index;
-
-// chatgpt-indexing-test-0412317
