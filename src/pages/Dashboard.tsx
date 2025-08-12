@@ -70,7 +70,7 @@ const Dashboard = () => {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
-  const [currentView, setCurrentView] = useState("trips"); // home, saved, trips, chat
+  const [currentView, setCurrentView] = useState("home"); // home, saved, trips, chat
   
   // Modal states
   const [showDateModal, setShowDateModal] = useState(false);
@@ -832,12 +832,12 @@ const Dashboard = () => {
 
                 <section className="space-y-4 mt-6">
                   <h2 className="text-xl font-bold">Guides</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="flex gap-4 overflow-x-auto snap-x pb-2 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible">
                     {guidesData.map((g, idx) => (
                       <Card
                         key={idx}
                         onClick={() => navigate(`/destination-plan?name=${encodeURIComponent(g.title)}&image=${encodeURIComponent(g.image)}`)}
-                        className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+                        className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow min-w-[260px] snap-start md:min-w-0"
                       >
                         <div className="relative">
                           <img src={g.image} alt={`${g.title} guide`} className="w-full h-56 object-cover" loading="lazy" />

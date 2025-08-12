@@ -13,6 +13,12 @@ const steps = [
 const HowItWorks: React.FC = () => {
   const [active, setActive] = useState(0);
   const ActiveIcon = useMemo(() => steps[active].icon, [active]);
+  const stepMedia = [
+    { type: "image", src: "/lovable-uploads/fecf991b-a2fb-4a4f-b66a-03f68073fdcf.png", alt: "Send to Verso from Instagram, WhatsApp, TikTok" },
+    { type: "image", src: "/lovable-uploads/b46855c2-8558-4896-a8b4-af86c6c92b6f.png", alt: "Auto-organized content, found in seconds" },
+    { type: "itinerary" },
+    { type: "booking" },
+  ] as const;
 
   return (
     <section id="how-it-works" className="py-16">
@@ -26,8 +32,8 @@ const HowItWorks: React.FC = () => {
               key={s.id}
               onClick={() => setActive(idx)}
               className={
-                "flex items-center gap-2 px-4 py-2 rounded-full border transition-all " +
-                (active === idx ? "bg-coral text-white shadow" : "hover:bg-muted/60")
+                "flex items-center gap-2 px-4 py-2 rounded-full border transition-all whitespace-nowrap min-w-max " +
+                (active === idx ? "bg-coral text-white shadow ring-2 ring-primary/40" : "hover:bg-muted/60")
               }
               aria-current={active === idx ? "step" : undefined}
             >
@@ -54,8 +60,53 @@ const HowItWorks: React.FC = () => {
               Build my first trip
             </Button>
           </div>
-          <div className="aspect-video rounded-lg bg-muted grid place-items-center">
-            <ActiveIcon className="h-14 w-14 text-muted-foreground" />
+          <div className="aspect-video rounded-lg bg-muted overflow-hidden relative">
+            {stepMedia[active].type === "image" && (
+              <>
+                {/* Micro-demo image with gradient overlay */}
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                <img
+                  src={(stepMedia[active] as any).src}
+                  alt={(stepMedia[active] as any).alt}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              </>
+            )}
+
+            {stepMedia[active].type === "itinerary" && (
+              <div className="p-4 grid gap-3">
+                <div className="rounded-md border bg-background p-3">
+                  <div className="text-sm font-medium">Day 1: Bangkok street food</div>
+                  <div className="text-xs text-muted-foreground">Saved posts → mapped to itinerary</div>
+                </div>
+                <div className="rounded-md border bg-background p-3">
+                  <div className="text-sm font-medium">Day 2: Temples & Old City</div>
+                  <div className="text-xs text-muted-foreground">Auto-grouped activities</div>
+                </div>
+                <div className="rounded-md border bg-background p-3">
+                  <div className="text-sm font-medium">Day 3: Rooftop views</div>
+                  <div className="text-xs text-muted-foreground">Creator‑verified picks</div>
+                </div>
+              </div>
+            )}
+
+            {stepMedia[active].type === "booking" && (
+              <div className="h-full w-full grid place-items-center p-4">
+                <div className="max-w-sm w-full rounded-xl border bg-background p-4 shadow">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium">Trip total</span>
+                    <span className="font-semibold">$2,180</span>
+                  </div>
+                  <Button className="w-full bg-coral text-white">One‑click Book All</Button>
+                  <ul className="mt-3 text-xs text-muted-foreground space-y-1">
+                    <li>Flights • Hotels • Activities</li>
+                    <li>Free cancellation (24h)</li>
+                  </ul>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

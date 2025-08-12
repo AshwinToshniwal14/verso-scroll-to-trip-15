@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
+import { Link } from "react-router-dom";
+import { LogIn } from "lucide-react";
 
 const SECTIONS = [
   { id: "hero", label: "Home" },
@@ -81,6 +83,11 @@ export const Navbar: React.FC = () => {
 
         {/* CTAs */}
         <div className="flex items-center gap-2">
+          <Link to="/login" aria-label="Login" className="hidden md:inline-flex">
+            <Button variant="ghost" size="icon">
+              <LogIn className="h-4 w-4" />
+            </Button>
+          </Link>
           <Button
             variant="outline"
             onClick={() => {
